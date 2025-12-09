@@ -324,23 +324,66 @@
 
     <script>
         const CARTAS_ENCANTADAS = [
+           // --- CARTA 1 ---
             {
                 id: 1,
                 remitente: "Jochue",
                 destinatario: "Fersita",
                 fecha: "8 de Diciembre, 2025",
                 asunto: "Un regalo hecho con el corazón",
-                cuerpo: "Esta página es un regalo que preparé con cariño para usted; espero de corazón que le encante.\n\nConfieso que estoy un poco nervioso por lo que pensará y por saber si le gustará.\n\nEn esta sección encontrará una carta nueva cada cierto tiempo, así que no olvide volver para leerla.\n\nLos poemas que descubrirá se irán actualizando periódicamente y reflejan la forma en que la veo, cómo me hizo sentir y, sobre todo, cuánto la amo.\n\nEn la sección de galería, encontrará un elogio dedicado a cada fotografía que se agregue.\n\nCon todo mi amor:\nTe amo, Fersitaaaa 💕\n\nAtentamente,"
-            },
+                // NOTA: Uso comillas invertidas ( ` ) al inicio y al final
+                cuerpo: `Esta página es un regalo que preparé con cariño para usted; espero de corazón que le encante.
 
+Confieso que estoy un poco nervioso por lo que pensará y por saber si le gustará.
+
+En esta sección encontrará una carta nueva cada cierto tiempo, así que no olvide volver para leerla.
+
+Los poemas que descubrirá se irán actualizando periódicamente y reflejan la forma en que la veo, cómo me hizo sentir y, sobre todo, cuánto la amo.
+
+En la sección de galería, encontrará un elogio dedicado a cada fotografía que se agregue.
+
+Con todo mi amor:
+Te amo, Fersitaaaa 💕
+
+Atentamente,`
+            }, // <--- ¡IMPORTANTE! Esta coma separa la carta 1 de la 2
+
+            // --- CARTA 2 ---
             {
-    id: 2,
-    remitente: "Jochue",
-    destinatario: "Fershita",
-    fecha: "8 de Diciembre, 2025",
-    asunto: "Lo que evocas en mi...",
-    cuerpo: "Evocas calma,\ncomo cuando la lluvia cae suave\ny uno simplemente respira.\n\nEvocas nervios lindos,\ncomo cuando llega un mensaje\ny mi corazón lo lee antes que mis ojos.\n\nEvocas ternura,\nde esa que no se grita,\npero se siente en los silencios compartidos.\n\nEvocas memorias que aún no existen,\npero que ya me ilusionan.\nCaminatas que no dimos,\nbesos que aún no nos robamos.\n\nEvocas paz,\ncuando todo es ruido.\nY ganas,\ncuando todo cansa.\n\nNo sé cómo lo haces,\nni cuándo empezó,\npero desde que llegaste\nhay partes de mí\nque solo responden a ti."
-}
+                id: 2,
+                remitente: "Jochue",
+                destinatario: "Fershita",
+                fecha: "8 de Diciembre, 2025",
+                asunto: "Lo que evocas en mi...",
+                cuerpo: `Evocas calma,
+como cuando la lluvia cae suave
+y uno simplemente respira.
+
+Evocas nervios lindos,
+como cuando llega un mensaje
+y mi corazón lo lee antes que mis ojos.
+
+Evocas ternura,
+de esa que no se grita,
+pero se siente en los silencios compartidos.
+
+Evocas memorias que aún no existen,
+pero que ya me ilusionan.
+Caminatas que no dimos,
+besos que aún no nos robamos.
+
+Evocas paz,
+cuando todo es ruido.
+Y ganas,
+cuando todo cansa.
+
+No sé cómo lo haces,
+ni cuándo empezó,
+pero desde que llegaste
+hay partes de mí
+que solo responden a ti.`
+            }
+        ];
         ];
 
         const appContainer = document.getElementById('app-container');
@@ -493,5 +536,6 @@
     </script>
 </body>
 </html>
+
 
 
