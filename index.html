@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <style>
-        /* --- VARIABLES DE TEMA --- */
         :root {
             --beast-blue: #0F1F38;
             --belle-gold: #D4AF37;
@@ -25,10 +24,9 @@
             min-height: 100vh;
             font-family: 'Cinzel', serif;
             color: var(--belle-gold);
-            padding-top: 80px; /* Espacio para el menú fijo */
+            padding-top: 80px; 
         }
 
-        /* --- MENÚ DE NAVEGACIÓN --- */
         .main-nav {
             position: fixed;
             top: 0;
@@ -68,9 +66,8 @@
             text-shadow: 0 0 10px var(--belle-gold);
         }
 
-        /* Indicador de página activa */
         .nav-list a.active::after {
-            content: '❧'; /* Un adorno floral pequeño */
+            content: '❧'; 
             display: block;
             position: absolute;
             bottom: -15px;
@@ -81,7 +78,6 @@
             color: var(--rose-red);
         }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
         .container {
             display: flex;
             flex-direction: column;
@@ -97,7 +93,6 @@
             margin-top: 20px;
         }
 
-        /* --- DIAPOSITIVAS --- */
         .slide {
             display: none;
             animation: softFade 1s ease-in-out;
@@ -109,7 +104,6 @@
             display: flex;
         }
 
-        /* --- MARCO DE FOTO --- */
         .photo-frame {
             background-color: var(--beast-blue);
             padding: 12px;
@@ -124,12 +118,11 @@
         .photo-frame img {
             display: block;
             max-width: 100%;
-            max-height: 400px; /* Altura ideal para móviles y PC */
+            max-height: 400px;
             width: auto;
             border: 1px solid var(--belle-gold);
         }
 
-        /* --- CARTA / TEXTO --- */
         .letter-content {
             background-color: var(--parchment);
             width: 90%;
@@ -159,7 +152,6 @@
             line-height: 1.3;
         }
 
-        /* --- BOTONES NAVEGACIÓN --- */
         .nav-buttons {
             display: flex;
             justify-content: center;
@@ -188,7 +180,6 @@
             color: var(--parchment);
         }
 
-        /* --- SECCIÓN AGREGAR RECUERDO (FORMULARIO) --- */
         .upload-section {
             width: 90%;
             max-width: 500px;
@@ -213,7 +204,6 @@
             gap: 15px;
         }
 
-        /* Estilo de los inputs para que parezcan mágicos */
         input[type="file"] {
             color: var(--parchment);
             font-family: 'Cinzel', serif;
@@ -224,7 +214,7 @@
             background: var(--parchment);
             border: 1px solid var(--belle-gold);
             padding: 10px;
-            font-family: 'Great Vibes', cursive; /* Escribes en cursiva */
+            font-family: 'Great Vibes', cursive;
             font-size: 1.3rem;
             color: #2c1b0e;
             border-radius: 3px;
@@ -259,9 +249,8 @@
             to { opacity: 1; }
         }
 
-        /* --- MEDIA QUERIES (PARA TELÉFONO) --- */
         @media (max-width: 600px) {
-            body { padding-top: 110px; } /* Más espacio porque el menú crecerá */
+            body { padding-top: 110px; }
             
             .nav-list {
                 flex-wrap: wrap;
@@ -648,37 +637,29 @@
 
     <script>
         let slideIndex = 0;
-        
-        // Función para mover las diapositivas
         function moveSlide(step) {
             const slides = document.querySelectorAll('.slide');
             
-            // Quitar clase activa
             slides[slideIndex].classList.remove('active');
             
-            // Calcular nuevo índice
             slideIndex += step;
             if (slideIndex >= slides.length) slideIndex = 0;
             if (slideIndex < 0) slideIndex = slides.length - 1;
             
-            // Agregar clase activa
             slides[slideIndex].classList.add('active');
         }
 
-        // Función para agregar recuerdo (Simulación)
         function addMemory() {
             const photoInput = document.getElementById('newPhoto');
             const titleInput = document.getElementById('newTitle');
             const msgInput = document.getElementById('newMsg');
             const galleryWrapper = document.getElementById('galleryWrapper');
 
-            // Validar que se haya seleccionado algo
             if (photoInput.files && photoInput.files[0] && titleInput.value && msgInput.value) {
                 
                 const reader = new FileReader();
                 
                 reader.onload = function(e) {
-                    // Crear el HTML del nuevo slide
                     const newSlide = document.createElement('div');
                     newSlide.classList.add('slide');
                     
@@ -692,27 +673,19 @@
                         </div>
                     `;
                     
-                    // Agregarlo al DOM
                     galleryWrapper.appendChild(newSlide);
-                    
-                    // Limpiar formulario
                     photoInput.value = '';
                     titleInput.value = '';
                     msgInput.value = '';
                     
                     alert("¡Recuerdo agregado mágicamente!");
                     
-                    // Ir automáticamente a la nueva foto (que es la última)
                     const allSlides = document.querySelectorAll('.slide');
-                    // Ocultar la actual
                     allSlides[slideIndex].classList.remove('active');
-                    // Actualizar índice a la última
                     slideIndex = allSlides.length - 1;
-                    // Mostrar la nueva
                     allSlides[slideIndex].classList.add('active');
                 }
                 
-                // Leer la imagen como URL de datos
                 reader.readAsDataURL(photoInput.files[0]);
                 
             } else {
@@ -722,4 +695,5 @@
     </script>
 
 </body>
+
 </html>
