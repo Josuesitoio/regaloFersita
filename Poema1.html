@@ -33,9 +33,6 @@
             position: relative;
         }
 
-        /* ============================
-           Fondo de Estrellas Doradas (Mejorado)
-        ============================ */
         .stars-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -45,10 +42,8 @@
         .star-layer {
             position: absolute;
             background: transparent;
-            /* Eliminado el opacity: 0 inicial para que ya estén ahí */
         }
 
-        /* NUEVA CAPA BASE: Muchas estrellas pequeñas, casi estáticas (parpadeo muy lento) */
         .s-base {
             width: 1px; height: 1px;
             box-shadow:
@@ -63,7 +58,6 @@
             opacity: 0.7;
         }
 
-        /* Capas existentes: parpadeo más activo */
         .s1 {
             width: 2px; height: 2px;
             box-shadow: 12vw 15vh var(--star-color), 35vw 45vh var(--star-color), 82vw 12vh var(--star-color), 91vw 78vh var(--star-color), 15vw 82vh var(--star-color), 55vw 22vh var(--star-color), 68vw 65vh var(--star-color), 42vw 92vh var(--star-color);
@@ -72,7 +66,7 @@
         .s2 {
             width: 3px; height: 3px;
             box-shadow: 25vw 25vh var(--star-color), 75vw 35vh var(--star-color), 45vw 55vh var(--star-color), 10vw 95vh var(--star-color), 95vw 15vh var(--star-color);
-            animation: twinkle 3s ease-in-out infinite alternate -1s; /* Start delay negativo */
+            animation: twinkle 3s ease-in-out infinite alternate -1s; 
         }
         .s3 {
             width: 4px; height: 4px;
@@ -80,21 +74,18 @@
             animation: twinkle 2.5s ease-in-out infinite alternate -0.5s;
         }
 
-        /* Animación para las estrellas base (muy sutil) */
+
         @keyframes pulse-slow {
             0% { opacity: 0.5; transform: scale(1); }
             100% { opacity: 0.8; transform: scale(1.05); }
         }
 
-        /* Animación para las estrellas activas (ajustada para no desaparecer) */
+
         @keyframes twinkle {
             0% { opacity: 0.5; transform: scale(0.9); } /* Mínimo de opacidad más alto */
             100% { opacity: 1; transform: scale(1.2); filter: brightness(1.8); }
         }
 
-        /* ============================
-           Estrellas Fugaces (Mismo código)
-        ============================ */
         .shooting-star {
             position: absolute; top: 50%; left: 50%; height: 2px;
             background: linear-gradient(-45deg, rgba(255, 235, 153, 1), rgba(0, 0, 255, 0));
@@ -116,9 +107,6 @@
         @keyframes shooting { 0% { transform: translateX(0) translateY(0) rotateZ(45deg); opacity: 1; } 100% { transform: translateX(800px) translateY(800px) rotateZ(45deg); opacity: 0; } }
         @keyframes shining { 0% { width: 0; } 50% { width: 30px; } 100% { width: 0; } }
 
-        /* ============================
-           Contenedor del Poema (Mismo código)
-        ============================ */
         .poem-container {
             max-width: 700px; padding: 5rem 3rem; text-align: center; position: relative; z-index: 10;
             background: rgba(20, 25, 40, 0.4); backdrop-filter: blur(8px);
@@ -233,4 +221,5 @@
     </main>
 
 </body>
+
 </html>
