@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>La Biblioteca Real - Archivos de la Bestia</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,452 +14,269 @@
            1. VARIABLES Y CONFIGURACIÓN GLOBAL
            ========================================= */
         :root {
-            /* Paleta de Colores - La Bella y la Bestia */
-            --beast-blue: #0f182e;       /* Azul muy oscuro */
-            --beast-blue-light: #1c2b4d; /* Azul para resaltar */
-            --belle-gold: #cfa144;       /* Dorado principal */
-            --belle-gold-dim: #8a6a26;   /* Dorado oscuro/sombra */
-            --belle-gold-bright: #ffd700;/* Dorado brillo */
-            --rose-red: #b30000;         /* Rojo rosa encantada */
-            --rose-red-glow: #ff4d4d;    /* Resplandor rojo */
-            --parchment-bg: #fdfbf7;     /* Fondo de papel */
-            --parchment-texture: #f4ecd8;/* Textura de papel */
-            --ink-color: #2b2b2b;        /* Color de tinta */
-            --glass-bg: rgba(15, 24, 46, 0.75); /* Efecto vidrio */
-            
-            /* Espaciados y Bordes */
-            --radius-sm: 5px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --shadow-soft: 0 10px 30px rgba(0,0,0,0.3);
-            --shadow-gold: 0 0 15px rgba(207, 161, 68, 0.2);
+            --beast-blue: #0f182e;       
+            --beast-blue-light: #1c2b4d; 
+            --belle-gold: #cfa144;       
+            --belle-gold-dim: #8a6a26;   
+            --belle-gold-bright: #ffd700;
+            --rose-red: #b30000;         
+            --rose-red-glow: #ff4d4d;    
+            --parchment-bg: #fdfbf7;     
+            --ink-color: #2b2b2b;        
         }
 
         * {
             box-sizing: border-box;
             scrollbar-width: thin;
             scrollbar-color: var(--belle-gold) var(--beast-blue);
+            -webkit-tap-highlight-color: transparent; /* Elimina flash azul en móvil */
         }
 
-        /* Scrollbar Webkit (Chrome/Safari) */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--beast-blue);
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: var(--belle-gold-dim);
-            border-radius: 10px;
-            border: 2px solid var(--beast-blue);
-        }
+        /* Scrollbar Webkit */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--beast-blue); }
+        ::-webkit-scrollbar-thumb { background-color: var(--belle-gold-dim); border-radius: 10px; }
 
         body {
             margin: 0;
             padding: 0;
             background-color: var(--beast-blue);
-            /* Patrón de fondo sutil tipo Damasco */
             background-image: 
                 radial-gradient(circle at 50% 50%, rgba(20, 30, 60, 0.8), rgba(5, 10, 20, 1)),
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231c2b4d' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             font-family: 'Lato', sans-serif;
             color: #ecf0f1;
-            height: 100vh;
-            overflow: hidden; /* Evitamos scroll en el body, lo manejamos internamente */
+            height: 100vh; /* Altura fija viewport */
+            overflow: hidden; /* Importante para el layout tipo App */
             display: flex;
             flex-direction: column;
         }
 
-        /* Animación de partículas mágicas (Fondo) */
         #magic-dust {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
         }
 
         /* =========================================
-           2. MENÚ DE NAVEGACIÓN (Solicitado)
+           2. MENÚ DE NAVEGACIÓN
            ========================================= */
         .main-nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
+            flex-shrink: 0; /* No encoger */
+            height: 60px;   /* Altura reducida para móvil */
             background-color: rgba(15, 31, 56, 0.95);
             border-bottom: 2px solid var(--belle-gold);
             z-index: 1000;
             display: flex;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px); /* Efecto moderno de desenfoque */
-            height: 80px; /* Altura fija para calcular offsets */
+            align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         .nav-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            gap: 50px; /* Separación más amplia */
-            align-items: center;
-        }
-
-        .nav-list li {
-            padding: 0;
+            list-style: none; padding: 0; margin: 0; display: flex; gap: 30px;
         }
 
         .nav-list a {
-            text-decoration: none;
-            color: var(--belle-gold);
-            font-family: 'Cinzel', serif;
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.4s ease;
-            position: relative;
-            padding: 10px 5px;
+            text-decoration: none; color: var(--belle-gold);
+            font-family: 'Cinzel', serif; font-weight: 600; font-size: 0.9rem;
+            text-transform: uppercase; letter-spacing: 1px;
+            position: relative; padding: 5px;
         }
 
-        .nav-list a:hover, .nav-list a.active {
-            color: #fff;
-            text-shadow: 0 0 10px var(--belle-gold);
-        }
-
-        /* Indicador de página activa */
+        .nav-list a.active, .nav-list a:hover { color: #fff; text-shadow: 0 0 10px var(--belle-gold); }
         .nav-list a.active::after {
-            content: '❧'; /* Un adorno floral pequeño */
-            display: block;
-            position: absolute;
-            bottom: -25px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 1.5rem;
-            color: var(--rose-red);
-            animation: floatSymbol 2s ease-in-out infinite;
+            content: '❧'; display: block; position: absolute;
+            bottom: -18px; left: 0; right: 0; text-align: center;
+            color: var(--rose-red); animation: floatSymbol 2s ease-in-out infinite;
         }
 
         @keyframes floatSymbol {
             0%, 100% { transform: translateY(0); opacity: 0.8; }
-            50% { transform: translateY(-3px); opacity: 1; text-shadow: 0 0 5px var(--rose-red); }
+            50% { transform: translateY(-3px); opacity: 1; }
         }
 
         /* =========================================
            3. ESTRUCTURA PRINCIPAL (LAYOUT)
            ========================================= */
         .app-container {
+            flex: 1; /* Ocupa el resto de la pantalla */
             display: flex;
-            width: 100%;
-            height: calc(100vh - 80px); /* Restamos la altura del nav */
-            margin-top: 80px;
             position: relative;
+            overflow: hidden;
+            width: 100%;
             z-index: 10;
         }
 
-        /* --- PANEL LATERAL (LISTA DE CARTAS) --- */
+        /* --- PANEL LATERAL (LISTA) --- */
         .sidebar {
             width: 350px;
-            background: linear-gradient(180deg, rgba(11, 20, 40, 0.95) 0%, rgba(5, 10, 20, 0.98) 100%);
+            height: 100%;
+            background: linear-gradient(180deg, rgba(11, 20, 40, 0.98) 0%, rgba(5, 10, 20, 1) 100%);
             border-right: 3px solid var(--belle-gold-dim);
             display: flex;
             flex-direction: column;
-            box-shadow: 5px 0 25px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
             z-index: 20;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .sidebar-header {
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--belle-gold-dim);
-            background: rgba(0,0,0,0.2);
+            padding: 20px 15px; text-align: center;
+            border-bottom: 1px solid var(--belle-gold-dim); background: rgba(0,0,0,0.2);
         }
 
         .sidebar-header h2 {
-            font-family: 'Great Vibes', cursive;
-            color: var(--belle-gold);
-            font-size: 2.8rem;
-            margin: 0;
-            line-height: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            font-family: 'Great Vibes', cursive; color: var(--belle-gold);
+            font-size: 2.2rem; margin: 0; line-height: 1;
         }
-
         .sidebar-header p {
-            font-family: 'Cinzel', serif;
-            color: #aaa;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            margin-top: 10px;
-            text-transform: uppercase;
+            font-family: 'Cinzel', serif; color: #aaa; font-size: 0.65rem;
+            letter-spacing: 2px; margin-top: 5px; text-transform: uppercase;
         }
 
-        .search-box {
-            padding: 15px 20px;
-            background: rgba(255,255,255,0.03);
-        }
-
+        .search-box { padding: 10px 15px; background: rgba(255,255,255,0.03); }
         .search-input {
-            width: 100%;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--belle-gold-dim);
-            padding: 10px;
-            color: var(--belle-gold);
-            font-family: 'Lato', sans-serif;
-            border-radius: 4px;
-            outline: none;
-            transition: 0.3s;
-        }
-        .search-input:focus {
-            border-color: var(--belle-gold);
-            box-shadow: 0 0 10px rgba(207, 161, 68, 0.2);
+            width: 100%; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--belle-gold-dim); padding: 8px;
+            color: var(--belle-gold); border-radius: 4px; outline: none;
         }
 
-        .message-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
+        .message-list { flex: 1; overflow-y: auto; padding: 10px; }
 
-        /* Tarjeta de Mensaje en la Lista */
         .message-card {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
-            border-left: 3px solid transparent;
-            padding: 20px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
+            background: rgba(255,255,255,0.02);
+            border-left: 3px solid transparent; padding: 15px;
+            margin-bottom: 8px; cursor: pointer; position: relative;
         }
-
-        .message-card:hover {
-            background: rgba(255,255,255,0.08);
-            padding-left: 25px; /* Pequeño desplazamiento */
-        }
-
+        .message-card:active, .message-card:hover { background: rgba(255,255,255,0.05); }
         .message-card.active {
             background: linear-gradient(90deg, rgba(207, 161, 68, 0.15) 0%, rgba(0,0,0,0) 100%);
             border-left-color: var(--belle-gold);
         }
-
-        .message-card.active .card-remitente {
-            color: var(--belle-gold-bright);
-            text-shadow: 0 0 8px rgba(207, 161, 68, 0.4);
-        }
-
         .card-remitente {
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #ddd;
-            display: block;
-            margin-bottom: 5px;
+            font-family: 'Cinzel', serif; font-weight: 700; color: #ddd; display: block; margin-bottom: 4px;
         }
+        .card-asunto { font-size: 0.85rem; color: #999; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-fecha { font-size: 0.65rem; color: #666; margin-top: 6px; display: block; text-align: right; font-style: italic; }
 
-        .card-asunto {
-            font-family: 'Lato', sans-serif;
-            font-size: 0.9rem;
-            color: #999;
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-fecha {
-            font-size: 0.7rem;
-            color: #666;
-            margin-top: 8px;
-            display: block;
-            text-align: right;
-            font-style: italic;
-        }
-
-        /* --- ZONA DE LECTURA (CONTENIDO DERECHA) --- */
+        /* --- ZONA DE LECTURA --- */
         .reading-pane {
             flex: 1;
-            padding: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center; /* Centrar verticalmente */
+            height: 100%;
             position: relative;
             background-color: rgba(15, 24, 46, 0.4);
             perspective: 1000px;
-        }
-
-        /* El Papel / La Carta */
-        .parchment {
-            background-color: var(--parchment-bg);
-            width: 100%;
-            max-width: 900px;
-            height: 90%; /* Ocupa casi todo el alto disponible */
-            padding: 60px 80px;
-            color: var(--ink-color);
-            border-radius: 2px;
-            box-shadow: 
-                0 0 0 2px rgba(0,0,0,0.1), /* Borde sutil */
-                10px 10px 40px rgba(0,0,0,0.6), /* Sombra profundidad */
-                inset 0 0 60px rgba(168, 142, 100, 0.3); /* Efecto envejecido interior */
-            position: relative;
-            overflow-y: auto; /* IMPORTANTE: Permite scroll INTERNO en la carta */
-            
-            /* Animación de entrada */
-            opacity: 0;
-            transform: rotateX(10deg) translateY(50px);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            
-            /* Soporte para texto largo */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .parchment.visible {
-            opacity: 1;
-            transform: rotateX(0) translateY(0);
-        }
-
-        /* Decoraciones del papel */
-        .parchment::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        /* Cabecera de la carta */
-        .letter-header {
-            border-bottom: 2px solid var(--belle-gold);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .letter-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
-            color: #222;
-            margin: 0 0 10px 0;
-            line-height: 1.3;
-        }
-
-        .letter-meta {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            color: #666;
-            font-size: 1rem;
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-
-        /* Cuerpo de la carta */
-        .letter-body {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
-            line-height: 1.9;
-            text-align: justify;
-            color: #1a1a1a;
-            white-space: pre-wrap; /* Mantiene los saltos de línea del usuario */
-        }
-
-        .letter-body::first-letter {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
-            float: left;
-            line-height: 0.7;
-            margin-right: 15px;
-            color: var(--rose-red);
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
-        }
-
-        /* Firma */
-        .letter-footer {
-            margin-top: 50px;
-            text-align: right;
-            padding-right: 20px;
-        }
-        .signature {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
-            color: var(--beast-blue);
-            transform: rotate(-5deg);
-            display: inline-block;
-        }
-
-        /* Sello de Cera (Visual) */
-        .wax-seal {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle at 30% 30%, var(--rose-red-glow), var(--rose-red), #660000);
-            border-radius: 50%;
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 40px;
-            color: rgba(0,0,0,0.3);
-            font-family: 'Cinzel', serif;
-            border: 2px dashed rgba(255,255,255,0.2);
-            transform: rotate(15deg);
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Estado Vacío (Mensaje por defecto) */
-        .empty-state {
-            text-align: center;
+        /* Botón "Volver" (Solo visible en móvil mediante JS/CSS) */
+        .back-button {
+            display: none; /* Por defecto oculto en escritorio */
+            position: absolute;
+            top: 15px; left: 15px;
+            z-index: 100;
+            background: rgba(15, 24, 46, 0.9);
+            border: 1px solid var(--belle-gold);
             color: var(--belle-gold);
-            animation: pulse 3s infinite;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            align-items: center; gap: 5px;
+        }
+
+        /* El Papel */
+        .parchment {
+            background-color: var(--parchment-bg);
+            width: 100%; height: 100%; /* Full en móvil */
+            max-width: 900px; max-height: 90vh; /* Max en escritorio */
+            padding: 40px 30px 80px 30px; /* Padding extra abajo para scroll */
+            color: var(--ink-color);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow-y: auto; /* Scroll interno del papel */
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.5s ease-out;
+            /* Textura papel */
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
         
-        .empty-icon {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px var(--rose-red));
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.6; transform: scale(0.98); }
-            50% { opacity: 1; transform: scale(1.02); }
-            100% { opacity: 0.6; transform: scale(0.98); }
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .app-container {
-                flex-direction: column;
+        /* En escritorio damos margen y borde redondeado */
+        @media (min-width: 769px) {
+            .parchment {
+                height: 90%;
+                border-radius: 2px;
+                padding: 60px 80px;
             }
+        }
+
+        .parchment.visible { opacity: 1; transform: translateY(0); }
+
+        .letter-header { border-bottom: 2px solid var(--belle-gold); padding-bottom: 15px; margin-bottom: 20px; text-align: center; }
+        .letter-title { font-family: 'Cinzel', serif; font-size: 1.6rem; color: #222; margin: 0 0 10px 0; line-height: 1.2; }
+        .letter-meta { font-family: 'Playfair Display', serif; font-style: italic; color: #666; font-size: 0.9rem; display: flex; justify-content: space-between; margin-top: 10px; }
+        
+        .letter-body { font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.8; text-align: justify; color: #1a1a1a; white-space: pre-wrap; }
+        .letter-body::first-letter { font-family: 'Great Vibes', cursive; font-size: 3.5rem; float: left; line-height: 0.7; margin-right: 10px; color: var(--rose-red); }
+        
+        .letter-footer { margin-top: 40px; text-align: right; padding-right: 10px; }
+        .signature { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--beast-blue); transform: rotate(-5deg); display: inline-block; }
+        
+        .wax-seal {
+            width: 60px; height: 60px;
+            background: radial-gradient(circle at 30% 30%, var(--rose-red-glow), var(--rose-red), #660000);
+            border-radius: 50%; position: absolute; bottom: 20px; right: 20px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 30px; color: rgba(0,0,0,0.3); font-family: 'Cinzel', serif;
+            border: 2px dashed rgba(255,255,255,0.2); transform: rotate(15deg);
+        }
+
+        .empty-state { text-align: center; color: var(--belle-gold); padding: 20px; }
+        .empty-icon { font-size: 4rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--rose-red)); }
+
+        /* =========================================
+           4. RESPONSIVE / MÓVIL (LÓGICA APP)
+           ========================================= */
+        @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
-                height: 300px; /* Altura fija en móvil */
-                order: 1; /* Mover abajo si se desea, o mantener arriba */
-                border-right: none;
-                border-bottom: 3px solid var(--belle-gold);
+                position: absolute;
+                top: 0; left: 0;
             }
+
             .reading-pane {
-                height: calc(100% - 300px);
-                padding: 10px;
+                width: 100%;
+                position: absolute;
+                top: 0; left: 0;
+                transform: translateX(100%); /* Oculto a la derecha */
+                background-color: var(--beast-blue); /* Fondo sólido para tapar lista */
+                z-index: 30;
             }
-            .parchment {
-                padding: 30px;
+            
+            /* Cuando la clase 'reading-mode' está activa en el contenedor padre */
+            .app-container.reading-mode .sidebar {
+                transform: translateX(-30%); /* Efecto parallax sutil */
+                opacity: 0;
             }
-            .letter-title {
-                font-size: 1.5rem;
+            
+            .app-container.reading-mode .reading-pane {
+                transform: translateX(0); /* Entra en escena */
             }
-            .nav-list {
-                gap: 15px;
+
+            .back-button {
+                display: flex; /* Mostrar botón volver */
             }
-            .nav-list a {
-                font-size: 0.9rem;
-            }
+
+            .nav-list { gap: 15px; }
+            .nav-list a { font-size: 0.7rem; }
+            .sidebar-header h2 { font-size: 1.8rem; }
+            .parchment { border-radius: 0; box-shadow: none; }
         }
     </style>
 </head>
@@ -473,7 +290,7 @@
         </ul>
     </nav>
 
-    <div class="app-container">
+    <div class="app-container" id="app-container">
         
         <aside class="sidebar">
             <header class="sidebar-header">
@@ -482,7 +299,7 @@
             </header>
             
             <div class="search-box">
-                <input type="text" class="search-input" id="buscador" placeholder="Buscar por remitente o asunto...">
+                <input type="text" class="search-input" id="buscador" placeholder="Buscar carta...">
             </div>
 
             <div class="message-list" id="lista-cartas">
@@ -490,10 +307,15 @@
         </aside>
 
         <main class="reading-pane" id="zona-lectura">
+            
+            <button class="back-button" onclick="cerrarCarta()">
+                <span>❮</span> Volver
+            </button>
+
             <div class="empty-state">
                 <div class="empty-icon">🌹</div>
-                <h2>Selecciona una carta para romper el hechizo</h2>
-                <p>Los secretos del castillo aguardan tu lectura.</p>
+                <h3>Selecciona una carta</h3>
+                <p>Toca una carta de la lista para leerla.</p>
             </div>
         </main>
     </div>
@@ -501,16 +323,8 @@
     <canvas id="magic-dust"></canvas>
 
     <script>
-        /**
-         * =========================================
-         * BASE DE DATOS DE CARTAS (JSON)
-         * =========================================
-         * Puedes añadir textos MUY largos aquí.
-         * Usa \n para saltos de línea adicionales si es necesario,
-         * aunque el CSS 'white-space: pre-wrap' lo maneja automáticamente.
-         */
         const CARTAS_ENCANTADAS = [
-{
+            {
                 id: 1,
                 remitente: "Jochue",
                 destinatario: "Fersita",
@@ -520,52 +334,50 @@
             }
         ];
 
-        /**
-         * =========================================
-         * LÓGICA DE INTERFAZ (UI)
-         * =========================================
-         */
-        
+        const appContainer = document.getElementById('app-container');
         const listaCartasEl = document.getElementById('lista-cartas');
-        const zonaLecturaEl = document.getElementById('zona-lectura');
+        const zonaLecturaEl = document.getElementById('zona-lectura'); // Contenedor padre
         const buscadorInput = document.getElementById('buscador');
+        
+        // Elemento donde se renderiza el papel (hijo de zona-lectura)
+        let parchmentEl = null; 
 
-        // 1. Renderizar la lista lateral
         function renderizarLista(cartas) {
-            listaCartasEl.innerHTML = ''; // Limpiar
-            
+            listaCartasEl.innerHTML = '';
             cartas.forEach(carta => {
                 const tarjeta = document.createElement('div');
                 tarjeta.className = 'message-card';
-                tarjeta.onclick = () => abrirCarta(carta.id);
                 tarjeta.setAttribute('data-id', carta.id);
+                tarjeta.onclick = () => abrirCarta(carta.id);
                 
                 tarjeta.innerHTML = `
                     <span class="card-remitente">${carta.remitente}</span>
                     <span class="card-asunto">${carta.asunto}</span>
                     <span class="card-fecha">${carta.fecha}</span>
                 `;
-                
                 listaCartasEl.appendChild(tarjeta);
             });
         }
 
-        // 2. Abrir y mostrar una carta
         function abrirCarta(id) {
             const carta = CARTAS_ENCANTADAS.find(c => c.id === id);
             if (!carta) return;
 
-            // Actualizar estilo activo en la lista
+            // 1. Marcar activo en la lista
             document.querySelectorAll('.message-card').forEach(c => c.classList.remove('active'));
-            document.querySelector(`.message-card[data-id="${id}"]`).classList.add('active');
+            const cardActiva = document.querySelector(`.message-card[data-id="${id}"]`);
+            if(cardActiva) cardActiva.classList.add('active');
 
-            // Crear el HTML de la carta
-            // Usamos un pequeño timeout para permitir una transición de salida si hubiera una carta previa
-            zonaLecturaEl.innerHTML = '';
-            
+            // 2. Activar modo lectura (Desplaza la pantalla en móvil)
+            appContainer.classList.add('reading-mode');
+
+            // 3. Renderizar contenido
+            // Limpiamos contenido previo PERO mantenemos el botón de volver
+            const contenidoPrevio = zonaLecturaEl.querySelectorAll('.parchment, .empty-state');
+            contenidoPrevio.forEach(el => el.remove());
+
             const parchment = document.createElement('div');
             parchment.className = 'parchment';
-            
             parchment.innerHTML = `
                 <div class="letter-header">
                     <h1 class="letter-title">${carta.asunto}</h1>
@@ -573,44 +385,46 @@
                         <span>De: <strong>${carta.remitente}</strong></span>
                         <span>${carta.fecha}</span>
                     </div>
-                    <div class="letter-meta">
-                        <span>Para: <strong>${carta.destinatario}</strong></span>
-                    </div>
                 </div>
-                <div class="letter-body">
-                    ${carta.cuerpo}
-                </div>
+                <div class="letter-body">${carta.cuerpo}</div>
                 <div class="letter-footer">
                     <span class="signature">${carta.remitente}</span>
                 </div>
                 <div class="wax-seal">B</div>
+                <div style="height: 50px;"></div>
             `;
 
             zonaLecturaEl.appendChild(parchment);
-
-            // Forzar reflow para la animación
-            setTimeout(() => {
-                parchment.classList.add('visible');
-            }, 50);
+            
+            // Animación
+            setTimeout(() => parchment.classList.add('visible'), 50);
+            
+            // Scroll arriba en móvil al abrir nueva carta
+            parchment.scrollTop = 0;
         }
 
-        // 3. Funcionalidad de Búsqueda
+        function cerrarCarta() {
+            // Quitar clase para volver a mostrar la lista (animación CSS se encarga del resto)
+            appContainer.classList.remove('reading-mode');
+            
+            // Opcional: quitar selección visual de la lista
+            setTimeout(() => {
+                 document.querySelectorAll('.message-card').forEach(c => c.classList.remove('active'));
+            }, 300);
+        }
+
+        // Buscador
         buscadorInput.addEventListener('input', (e) => {
             const texto = e.target.value.toLowerCase();
-            const cartasFiltradas = CARTAS_ENCANTADAS.filter(c => 
+            const filtradas = CARTAS_ENCANTADAS.filter(c => 
                 c.remitente.toLowerCase().includes(texto) || 
                 c.asunto.toLowerCase().includes(texto) ||
                 c.cuerpo.toLowerCase().includes(texto)
             );
-            renderizarLista(cartasFiltradas);
+            renderizarLista(filtradas);
         });
 
-        /**
-         * =========================================
-         * SISTEMA DE PARTÍCULAS (POLVO MÁGICO)
-         * =========================================
-         * Crea un efecto ambiental de partículas flotantes
-         */
+        // --- SISTEMA DE PARTÍCULAS (Sin cambios mayores, optimizado) ---
         const canvas = document.getElementById('magic-dust');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -622,29 +436,25 @@
 
         class Particle {
             constructor() {
+                this.reset();
+            }
+            reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5; // Tamaño pequeño
+                this.size = Math.random() * 2 + 0.5;
                 this.speedX = Math.random() * 0.5 - 0.25;
                 this.speedY = Math.random() * 0.5 - 0.25;
                 this.opacity = Math.random() * 0.5 + 0.1;
-                this.color = Math.random() > 0.8 ? '#ffd700' : '#ffffff'; // Oro o blanco
+                this.color = Math.random() > 0.8 ? '#ffd700' : '#ffffff';
             }
-
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-
-                // Rebote suave en bordes
-                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-
-                // Parpadeo
+                if (this.x > canvas.width || this.x < 0 || this.y > canvas.height || this.y < 0) this.reset();
                 this.opacity += Math.random() * 0.02 - 0.01;
                 if (this.opacity < 0) this.opacity = 0;
                 if (this.opacity > 0.8) this.opacity = 0.8;
             }
-
             draw() {
                 ctx.fillStyle = this.color;
                 ctx.globalAlpha = this.opacity;
@@ -656,30 +466,21 @@
 
         function initParticles() {
             particles = [];
-            const numberOfParticles = 80; // Cantidad de polvo
-            for (let i = 0; i < numberOfParticles; i++) {
-                particles.push(new Particle());
-            }
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
         }
-
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateParticles);
         }
 
-        // Eventos de inicio
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
         initParticles();
         animateParticles();
-
-        // Carga inicial de datos
+        
+        // Inicializar
         renderizarLista(CARTAS_ENCANTADAS);
-
     </script>
 </body>
 </html>
