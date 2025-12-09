@@ -10,30 +10,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           1. RESET Y VARIABLES GLOBALES
-           ========================================= */
         :root {
-            /* Paleta de Colores - Bestia (Profundidad) */
             --color-deep-blue: #050A18;
             --color-royal-blue: #0f1c3f;
             --color-night-shadow: #02040a;
             
-            /* Paleta de Colores - Bella (Luz y Oro) */
             --color-gold-leaf: #D4AF37;
             --color-gold-dust: #FFF5C3;
             --color-antique-gold: #aa8c2c;
             
-            /* Paleta de Colores - La Rosa (Pasión) */
             --color-rose-crimson: #720e1e;
             --color-rose-bright: #c21e56;
             
-            /* Tipografía */
             --font-title: 'Cinzel Decorative', serif;
             --font-script: 'Great Vibes', cursive;
             --font-body: 'Playfair Display', serif;
             
-            /* Dimensiones */
             --border-width: 2px;
             --card-padding: 40px;
         }
@@ -56,7 +48,6 @@
             min-height: 100vh;
         }
 
-        /* Scrollbar personalizado */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -68,9 +59,6 @@
             border-radius: 5px;
         }
 
-        /* =========================================
-           2. EFECTOS DE FONDO Y PARTÍCULAS
-           ========================================= */
         #magic-canvas {
             position: fixed;
             top: 0;
@@ -92,9 +80,6 @@
             pointer-events: none;
         }
 
-        /* =========================================
-           3. ESTRUCTURA PRINCIPAL
-           ========================================= */
         .main-wrapper {
             position: relative;
             z-index: 10;
@@ -104,9 +89,6 @@
             perspective: 1000px;
         }
 
-        /* =========================================
-           4. CABECERA Y TÍTULOS
-           ========================================= */
         header {
             text-align: center;
             margin-bottom: 120px;
@@ -137,7 +119,6 @@
             animation: fadeInUp 2s ease-out forwards 1s;
         }
 
-        /* Separador Ornamental SVG */
         .separator-ornament {
             width: 100%;
             max-width: 400px;
@@ -155,22 +136,18 @@
             animation: drawLine 3s ease-in-out forwards 1.5s;
         }
 
-        /* =========================================
-           5. CONTENEDOR DEL POEMA (EL ESPEJO MÁGICO)
-           ========================================= */
         .poem-container {
             position: relative;
             padding: 80px 40px;
             background: rgba(10, 16, 37, 0.7);
             border: 1px solid rgba(212, 175, 55, 0.2);
             backdrop-filter: blur(5px);
-            border-radius: 4px; /* Esquinas ligeramente suaves */
+            border-radius: 4px;
             box-shadow: 
                 0 0 30px rgba(0,0,0,0.5),
                 inset 0 0 50px rgba(0,0,0,0.5);
         }
 
-        /* Marcos decorativos en las esquinas */
         .corner-decoration {
             position: absolute;
             width: 80px;
@@ -186,9 +163,6 @@
         .corner-bottom-left { bottom: 10px; left: 10px; transform: scaleY(-1); }
         .corner-bottom-right { bottom: 10px; right: 10px; transform: scale(-1); }
 
-        /* =========================================
-           6. ESTILOS DE LOS VERSOS
-           ========================================= */
         .verse-block {
             margin-bottom: 80px;
             text-align: center;
@@ -209,7 +183,6 @@
             margin-bottom: 10px;
         }
 
-        /* Palabras Importantes / Resaltado */
         .highlight {
             color: var(--color-gold-leaf);
             font-family: var(--font-title);
@@ -243,7 +216,6 @@
             transform: scaleX(1);
         }
 
-        /* Estilos específicos para la rosa final */
         .final-rose-container {
             margin-top: 100px;
             display: flex;
@@ -265,9 +237,6 @@
             animation: float 4s ease-in-out infinite;
         }
 
-        /* =========================================
-           7. ANIMACIONES (KEYFRAMES)
-           ========================================= */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-50px); }
             to { opacity: 1; transform: translateY(0); }
@@ -294,9 +263,6 @@
             100% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
         }
 
-        /* =========================================
-           8. MEDIA QUERIES (RESPONSIVE)
-           ========================================= */
         @media (max-width: 768px) {
             .main-title { font-size: 2.5rem; }
             .sub-title { font-size: 1.8rem; }
@@ -433,17 +399,11 @@
     </div>
 
     <script>
-        /**
-         * =========================================
-         * SISTEMA DE PARTÍCULAS (POVO MÁGICO)
-         * =========================================
-         */
         const canvas = document.getElementById('magic-canvas');
         const ctx = canvas.getContext('2d');
         
         let particlesArray;
 
-        // Ajustar el canvas al tamaño de la ventana
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
@@ -451,7 +411,6 @@
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                // Velocidad aleatoria muy suave
                 this.directionX = (Math.random() * 0.4) - 0.2;
                 this.directionY = (Math.random() * 0.4) - 0.2;
                 this.size = Math.random() * 3;
@@ -462,7 +421,6 @@
             }
 
             getRandomColor() {
-                // Mezcla de dorado y rojo pétalo
                 const colors = ['#D4AF37', '#FFD700', '#FFF5C3', '#C21E56'];
                 return colors[Math.floor(Math.random() * colors.length)];
             }
@@ -473,21 +431,17 @@
                 ctx.globalAlpha = this.opacity;
                 ctx.fillStyle = this.color;
                 ctx.fill();
-                // Añadir brillo
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = this.color;
             }
 
             update() {
-                // Movimiento
                 this.x += this.directionX;
                 this.y += this.directionY;
 
-                // Rebote en bordes (o reaparición)
                 if (this.x < 0 || this.x > canvas.width) this.directionX = -this.directionX;
                 if (this.y < 0 || this.y > canvas.height) this.directionY = -this.directionY;
 
-                // Efecto de parpadeo (fade in / fade out)
                 if (this.fadingIn) {
                     this.opacity += this.fadeSpeed;
                     if (this.opacity >= 0.8) this.fadingIn = false;
@@ -496,7 +450,6 @@
                     if (this.opacity <= 0.1) this.fadingIn = true;
                 }
 
-                // Interacción con mouse (opcional)
                 let dx = mouse.x - this.x;
                 let dy = mouse.y - this.y;
                 let distance = Math.sqrt(dx*dx + dy*dy);
@@ -519,7 +472,6 @@
             }
         }
 
-        // Manejo del mouse
         let mouse = {
             x: null,
             y: null
@@ -529,7 +481,6 @@
             mouse.y = event.y;
         });
 
-        // Inicializar partículas
         function init() {
             particlesArray = [];
             let numberOfParticles = (canvas.height * canvas.width) / 9000;
@@ -538,7 +489,6 @@
             }
         }
 
-        // Bucle de animación
         function animate() {
             requestAnimationFrame(animate);
             ctx.clearRect(0,0,innerWidth, innerHeight);
@@ -548,7 +498,6 @@
             }
         }
 
-        // Manejar redimensionamiento
         window.addEventListener('resize', function() {
             canvas.width = innerWidth;
             canvas.height = innerHeight;
@@ -559,11 +508,6 @@
         animate();
 
 
-        /**
-         * =========================================
-         * OBSERVER DE INTERSECCIÓN (SCROLL)
-         * =========================================
-         */
         const observerOptions = {
             threshold: 0.15,
             rootMargin: "0px 0px -50px 0px"
@@ -575,7 +519,7 @@
                     return;
                 } else {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Solo animar una vez
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
@@ -589,11 +533,6 @@
         observer.observe(finalRose);
 
         
-        /**
-         * =========================================
-         * EFECTO PARALLAX SUTIL EN EL CONTENEDOR
-         * =========================================
-         */
         document.addEventListener('mousemove', (e) => {
             const moveX = (e.clientX - window.innerWidth / 2) * 0.005;
             const moveY = (e.clientY - window.innerHeight / 2) * 0.005;
