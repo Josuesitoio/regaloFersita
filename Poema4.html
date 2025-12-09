@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Bella y la Bestia: Eterna Coincidencia</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Great+Vibes&family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. RESET Y VARIABLES GLOBALES
+           ========================================= */
+        :root {
+            /* Paleta de Colores - Bestia (Profundidad) */
+            --color-deep-blue: #050A18;
+            --color-royal-blue: #0f1c3f;
+            --color-night-shadow: #02040a;
+            
+            /* Paleta de Colores - Bella (Luz y Oro) */
+            --color-gold-leaf: #D4AF37;
+            --color-gold-dust: #FFF5C3;
+            --color-antique-gold: #aa8c2c;
+            
+            /* Paleta de Colores - La Rosa (Pasión) */
+            --color-rose-crimson: #720e1e;
+            --color-rose-bright: #c21e56;
+            
+            /* Tipografía */
+            --font-title: 'Cinzel Decorative', serif;
+            --font-script: 'Great Vibes', cursive;
+            --font-body: 'Playfair Display', serif;
+            
+            /* Dimensiones */
+            --border-width: 2px;
+            --card-padding: 40px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-deep-blue);
+            background-image: 
+                radial-gradient(circle at 50% 50%, var(--color-royal-blue) 0%, var(--color-deep-blue) 80%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23122147' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: var(--color-gold-dust);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--color-deep-blue); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-antique-gold); 
+            border-radius: 5px;
+        }
+
+        /* =========================================
+           2. EFECTOS DE FONDO Y PARTÍCULAS
+           ========================================= */
+        #magic-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           3. ESTRUCTURA PRINCIPAL
+           ========================================= */
+        .main-wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px;
+            perspective: 1000px;
+        }
+
+        /* =========================================
+           4. CABECERA Y TÍTULOS
+           ========================================= */
+        header {
+            text-align: center;
+            margin-bottom: 120px;
+            position: relative;
+        }
+
+        .main-title {
+            font-family: var(--font-title);
+            font-size: 4.5rem;
+            background: linear-gradient(to bottom, var(--color-gold-leaf) 0%, var(--color-antique-gold) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeInDown 2s ease-out forwards 0.5s;
+        }
+
+        .sub-title {
+            font-family: var(--font-script);
+            font-size: 2.5rem;
+            color: var(--color-rose-bright);
+            text-shadow: 0 0 10px rgba(194, 30, 86, 0.4);
+            margin-top: -10px;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out forwards 1s;
+        }
+
+        /* Separador Ornamental SVG */
+        .separator-ornament {
+            width: 100%;
+            max-width: 400px;
+            height: 60px;
+            margin: 30px auto;
+            display: block;
+        }
+        
+        .separator-path {
+            fill: none;
+            stroke: var(--color-antique-gold);
+            stroke-width: 1;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLine 3s ease-in-out forwards 1.5s;
+        }
+
+        /* =========================================
+           5. CONTENEDOR DEL POEMA (EL ESPEJO MÁGICO)
+           ========================================= */
+        .poem-container {
+            position: relative;
+            padding: 80px 40px;
+            background: rgba(10, 16, 37, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(5px);
+            border-radius: 4px; /* Esquinas ligeramente suaves */
+            box-shadow: 
+                0 0 30px rgba(0,0,0,0.5),
+                inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        /* Marcos decorativos en las esquinas */
+        .corner-decoration {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            stroke: var(--color-gold-leaf);
+            stroke-width: 2;
+            fill: none;
+            transition: all 0.5s ease;
+        }
+
+        .corner-top-left { top: 10px; left: 10px; }
+        .corner-top-right { top: 10px; right: 10px; transform: scaleX(-1); }
+        .corner-bottom-left { bottom: 10px; left: 10px; transform: scaleY(-1); }
+        .corner-bottom-right { bottom: 10px; right: 10px; transform: scale(-1); }
+
+        /* =========================================
+           6. ESTILOS DE LOS VERSOS
+           ========================================= */
+        .verse-block {
+            margin-bottom: 80px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .verse-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .verse-text {
+            font-size: 1.5rem;
+            color: var(--color-gold-dust);
+            margin-bottom: 10px;
+        }
+
+        /* Palabras Importantes / Resaltado */
+        .highlight {
+            color: var(--color-gold-leaf);
+            font-family: var(--font-title);
+            font-weight: 700;
+            font-size: 1.1em;
+            position: relative;
+            display: inline-block;
+            transition: color 0.3s ease;
+            cursor: default;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(90deg, transparent, var(--color-gold-leaf), transparent);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s ease;
+        }
+
+        .highlight:hover {
+            color: #fff;
+            text-shadow: 0 0 15px var(--color-gold-leaf);
+        }
+
+        .highlight:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Estilos específicos para la rosa final */
+        .final-rose-container {
+            margin-top: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        
+        .final-rose-container.visible {
+            opacity: 1;
+        }
+
+        .enchanted-rose {
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(194, 30, 86, 0.5));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* =========================================
+           7. ANIMACIONES (KEYFRAMES)
+           ========================================= */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.9), 0 0 30px rgba(255, 215, 0, 0.6); }
+            100% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
+        }
+
+        /* =========================================
+           8. MEDIA QUERIES (RESPONSIVE)
+           ========================================= */
+        @media (max-width: 768px) {
+            .main-title { font-size: 2.5rem; }
+            .sub-title { font-size: 1.8rem; }
+            .verse-text { font-size: 1.2rem; }
+            .poem-container { padding: 40px 15px; }
+            .corner-decoration { width: 50px; height: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="vignette"></div>
+    <canvas id="magic-canvas"></canvas>
+
+    <div class="main-wrapper">
+        <header>
+            <h1 class="main-title">Bella y Bestia</h1>
+            <p class="sub-title">No éramos opuestos...</p>
+            
+            <svg class="separator-ornament" viewBox="0 0 400 60">
+                <path class="separator-path" d="M20,30 Q100,5 200,30 T380,30" />
+                <circle cx="20" cy="30" r="3" fill="#D4AF37" />
+                <circle cx="380" cy="30" r="3" fill="#D4AF37" />
+                <circle cx="200" cy="30" r="5" fill="#c21e56" />
+            </svg>
+        </header>
+
+        <main class="poem-container">
+            <svg class="corner-decoration corner-top-left" viewBox="0 0 100 100">
+                <path d="M10,100 L10,10 L100,10 M10,10 L30,30" />
+            </svg>
+            <svg class="corner-decoration corner-top-right" viewBox="0 0 100 100">
+                <path d="M10,100 L10,10 L100,10 M10,10 L30,30" />
+            </svg>
+            <svg class="corner-decoration corner-bottom-left" viewBox="0 0 100 100">
+                <path d="M10,100 L10,10 L100,10 M10,10 L30,30" />
+            </svg>
+            <svg class="corner-decoration corner-bottom-right" viewBox="0 0 100 100">
+                <path d="M10,100 L10,10 L100,10 M10,10 L30,30" />
+            </svg>
+
+            <div class="verse-block">
+                <p class="verse-text">No éramos opuestos,</p>
+                <p class="verse-text">éramos <span class="highlight">incompletos buscándose</span>.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Tú llegaste con la belleza tranquila</p>
+                <p class="verse-text">de quien ama sin darse cuenta,</p>
+                <p class="verse-text">y yo te encontré con el asombro</p>
+                <p class="verse-text">de quien nunca había sabido</p>
+                <p class="verse-text">que podía ser así.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Si fuimos bella y bestia</p>
+                <p class="verse-text">no fue por heridas ni por miedo,</p>
+                <p class="verse-text">sino por contraste:</p>
+                <p class="verse-text"><span class="highlight">tu luz</span> haciendo más viva la noche,</p>
+                <p class="verse-text"><span class="highlight">mi sombra</span> aprendiendo a ser refugio.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">En tu mirada nada se corrigió,</p>
+                <p class="verse-text">todo se abrazó.</p>
+                <p class="verse-text">Mi mundo no cambió por deber,</p>
+                <p class="verse-text"><span class="highlight">cambió por deseo</span>,</p>
+                <p class="verse-text">porque contigo todo quería quedarse.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Tu ternura no domó,</p>
+                <p class="verse-text">acompañó.</p>
+                <p class="verse-text">Mi fuerza no asustó,</p>
+                <p class="verse-text">protege.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Y así, sin hechizos ni finales trágicos,</p>
+                <p class="verse-text">el amor hizo coincidir.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Coincidir en el tiempo exacto,</p>
+                <p class="verse-text">cuando el corazón ya sabía amar.</p>
+                <p class="verse-text">Coincidir en la mirada que no juzga,</p>
+                <p class="verse-text">en las manos que no piden cambio,</p>
+                <p class="verse-text">solo presencia.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Si alguna vez fuimos cuento,</p>
+                <p class="verse-text">que sea uno sin miedos ni finales abruptos:</p>
+                <p class="verse-text">dos almas encontrándose</p>
+                <p class="verse-text">como si siempre se hubieran esperado.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Porque en ti,</p>
+                <p class="verse-text">mi parte más salvaje descansa.</p>
+                <p class="verse-text">Y en mí,</p>
+                <p class="verse-text">tu belleza no corre peligro.</p>
+            </div>
+
+            <div class="verse-block">
+                <p class="verse-text">Así termina la historia</p>
+                <p class="verse-text">de la bella y la bestia:</p>
+                <p class="verse-text">no con un hechizo roto,</p>
+                <p class="verse-text">sino con <span class="highlight">un amor que decidió quedarse</span>. 💛</p>
+            </div>
+
+            <div class="final-rose-container" id="final-rose">
+                <svg class="enchanted-rose" viewBox="0 0 512 512">
+                    <defs>
+                        <radialGradient id="roseGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                            <stop offset="0%" style="stop-color:#ff4d4d;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#800000;stop-opacity:1" />
+                        </radialGradient>
+                    </defs>
+                    <path d="M256,500 C240,400 280,300 260,200" stroke="#228B22" stroke-width="8" fill="none" />
+                    <path d="M260,350 Q320,320 340,360 Q300,380 260,350" fill="#228B22" />
+                    <path d="M260,300 Q200,270 180,310 Q220,330 260,300" fill="#228B22" />
+                    <path d="M256,100 C200,80 180,180 256,220 C332,180 312,80 256,100" fill="url(#roseGradient)" />
+                    <path d="M256,100 C220,130 220,170 256,200" fill="rgba(0,0,0,0.2)" />
+                    <path d="M200,150 Q180,100 230,110" fill="url(#roseGradient)" />
+                    <path d="M312,150 Q332,100 282,110" fill="url(#roseGradient)" />
+                    <path d="M255,400 L245,410 L255,405" fill="#186118" />
+                    <path d="M265,280 L275,270 L265,275" fill="#186118" />
+                </svg>
+                <div style="font-family: var(--font-script); color: var(--color-gold-leaf); margin-top: 20px; font-size: 1.5rem;">Fin.</div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        /**
+         * =========================================
+         * SISTEMA DE PARTÍCULAS (POVO MÁGICO)
+         * =========================================
+         */
+        const canvas = document.getElementById('magic-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let particlesArray;
+
+        // Ajustar el canvas al tamaño de la ventana
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // Velocidad aleatoria muy suave
+                this.directionX = (Math.random() * 0.4) - 0.2;
+                this.directionY = (Math.random() * 0.4) - 0.2;
+                this.size = Math.random() * 3;
+                this.color = this.getRandomColor();
+                this.opacity = Math.random() * 0.5;
+                this.fadeSpeed = Math.random() * 0.005; 
+                this.fadingIn = true;
+            }
+
+            getRandomColor() {
+                // Mezcla de dorado y rojo pétalo
+                const colors = ['#D4AF37', '#FFD700', '#FFF5C3', '#C21E56'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                // Añadir brillo
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+            }
+
+            update() {
+                // Movimiento
+                this.x += this.directionX;
+                this.y += this.directionY;
+
+                // Rebote en bordes (o reaparición)
+                if (this.x < 0 || this.x > canvas.width) this.directionX = -this.directionX;
+                if (this.y < 0 || this.y > canvas.height) this.directionY = -this.directionY;
+
+                // Efecto de parpadeo (fade in / fade out)
+                if (this.fadingIn) {
+                    this.opacity += this.fadeSpeed;
+                    if (this.opacity >= 0.8) this.fadingIn = false;
+                } else {
+                    this.opacity -= this.fadeSpeed;
+                    if (this.opacity <= 0.1) this.fadingIn = true;
+                }
+
+                // Interacción con mouse (opcional)
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx*dx + dy*dy);
+                if (distance < 100) {
+                    if (mouse.x < this.x && this.x < canvas.width - 10) {
+                        this.x += 1;
+                    }
+                    if (mouse.x > this.x && this.x > 10) {
+                        this.x -= 1;
+                    }
+                    if (mouse.y < this.y && this.y < canvas.height - 10) {
+                        this.y += 1;
+                    }
+                    if (mouse.y > this.y && this.y > 10) {
+                        this.y -= 1;
+                    }
+                }
+
+                this.draw();
+            }
+        }
+
+        // Manejo del mouse
+        let mouse = {
+            x: null,
+            y: null
+        }
+        window.addEventListener('mousemove', function(event){
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        // Inicializar partículas
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        // Bucle de animación
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0,0,innerWidth, innerHeight);
+            
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+        }
+
+        // Manejar redimensionamiento
+        window.addEventListener('resize', function() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        })
+
+        init();
+        animate();
+
+
+        /**
+         * =========================================
+         * OBSERVER DE INTERSECCIÓN (SCROLL)
+         * =========================================
+         */
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Solo animar una vez
+                }
+            });
+        }, observerOptions);
+
+        const verses = document.querySelectorAll('.verse-block');
+        verses.forEach(verse => {
+            observer.observe(verse);
+        });
+
+        const finalRose = document.getElementById('final-rose');
+        observer.observe(finalRose);
+
+        
+        /**
+         * =========================================
+         * EFECTO PARALLAX SUTIL EN EL CONTENEDOR
+         * =========================================
+         */
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.005;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.005;
+            
+            const container = document.querySelector('.poem-container');
+            container.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+
+    </script>
+</body>
+</html>

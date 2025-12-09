@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES DE TEMA --- */
+        :root {
+            --beast-blue: #0F1F38;
+            --belle-gold: #D4AF37;
+            --rose-red: #8B0000;
+            --parchment: #FDFBF0;
+            --dark-overlay: rgba(0, 0, 0, 0.7);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle, #1a2e52 0%, #000000 100%);
+            min-height: 100vh;
+            font-family: 'Cinzel', serif;
+            color: var(--belle-gold);
+            padding-top: 80px; /* Espacio para el menú fijo */
+        }
+
+        /* --- MENÚ DE NAVEGACIÓN --- */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 31, 56, 0.95);
+            border-bottom: 2px solid var(--belle-gold);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-list li {
+            padding: 20px 0;
+        }
+
+        .nav-list a {
+            text-decoration: none;
+            color: var(--belle-gold);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-list a:hover, .nav-list a.active {
+            color: #fff;
+            text-shadow: 0 0 10px var(--belle-gold);
+        }
+
+        /* Indicador de página activa */
+        .nav-list a.active::after {
+            content: '❧'; /* Un adorno floral pequeño */
+            display: block;
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--rose-red);
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 50px;
+        }
+
+        .gallery-frame {
+            position: relative;
+            width: 90%;
+            max-width: 700px;
+            margin-top: 20px;
+        }
+
+        /* --- DIAPOSITIVAS --- */
+        .slide {
+            display: none;
+            animation: softFade 1s ease-in-out;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        /* --- MARCO DE FOTO --- */
+        .photo-frame {
+            background-color: var(--beast-blue);
+            padding: 12px;
+            border: 3px solid var(--belle-gold);
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3), 0 10px 25px rgba(0,0,0,0.8);
+            margin-bottom: 20px;
+            width: fit-content;
+            max-width: 100%;
+        }
+
+        .photo-frame img {
+            display: block;
+            max-width: 100%;
+            max-height: 400px; /* Altura ideal para móviles y PC */
+            width: auto;
+            border: 1px solid var(--belle-gold);
+        }
+
+        /* --- CARTA / TEXTO --- */
+        .letter-content {
+            background-color: var(--parchment);
+            width: 90%;
+            padding: 20px;
+            border-radius: 2px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 1px solid #dcd0a5;
+            position: relative;
+            color: #2c1b0e;
+        }
+
+        .letter-content h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--rose-red);
+            font-size: 1.4rem;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--belle-gold);
+            display: inline-block;
+        }
+
+        .letter-content p {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.6rem;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* --- BOTONES NAVEGACIÓN --- */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            margin-top: 25px;
+            margin-bottom: 40px;
+        }
+
+        button.nav-btn {
+            background: transparent;
+            color: var(--belle-gold);
+            border: 1px solid var(--belle-gold);
+            padding: 10px 25px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        button.nav-btn:hover {
+            background: var(--rose-red);
+            border-color: var(--rose-red);
+            color: var(--parchment);
+        }
+
+        /* --- SECCIÓN AGREGAR RECUERDO (FORMULARIO) --- */
+        .upload-section {
+            width: 90%;
+            max-width: 500px;
+            border-top: 1px solid var(--belle-gold);
+            padding-top: 30px;
+            text-align: center;
+        }
+
+        .upload-title {
+            color: var(--belle-gold);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .upload-form {
+            background: rgba(15, 31, 56, 0.8);
+            padding: 20px;
+            border: 1px solid var(--belle-gold);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Estilo de los inputs para que parezcan mágicos */
+        input[type="file"] {
+            color: var(--parchment);
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+        }
+
+        input[type="text"], textarea {
+            background: var(--parchment);
+            border: 1px solid var(--belle-gold);
+            padding: 10px;
+            font-family: 'Great Vibes', cursive; /* Escribes en cursiva */
+            font-size: 1.3rem;
+            color: #2c1b0e;
+            border-radius: 3px;
+            resize: none;
+        }
+        
+        input[type="text"]::placeholder, textarea::placeholder {
+             font-family: 'Cinzel', serif;
+             font-size: 0.8rem;
+             color: #666;
+        }
+
+        .add-btn {
+            background-color: var(--belle-gold);
+            color: var(--beast-blue);
+            border: none;
+            padding: 12px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            background-color: #fff;
+            box-shadow: 0 0 15px var(--belle-gold);
+        }
+
+        @keyframes softFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- MEDIA QUERIES (PARA TELÉFONO) --- */
+        @media (max-width: 600px) {
+            body { padding-top: 110px; } /* Más espacio porque el menú crecerá */
+            
+            .nav-list {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            
+            .nav-list li { padding: 10px 0; }
+            .nav-list a { font-size: 0.9rem; }
+            
+            .photo-frame img { max-height: 280px; }
+            
+            .letter-content { width: 95%; padding: 15px; }
+            .letter-content p { font-size: 1.4rem; }
+            
+            .nav-buttons { gap: 10px; }
+            button.nav-btn { padding: 10px 15px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="#" class="active">Galería</a></li>
+            <li><a href="cartas.html">Cartas</a></li>
+            <li><a href="poemas.html">Poemas</a></li>
+        </ul>
+    </nav>
+
+   <div class="container">
+    <div class="gallery-frame" id="galleryWrapper">
+
+        <div class="slide active">
+            <div class="photo-frame">
+                <img src="images/picture1.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>El Encuentro</h2>
+                <p>A veces pienso que el universo conspiró durante siglos solo para que nuestros caminos se cruzaran en el momento exacto. No fue casualidad, fue el destino regalándome el privilegio de coincidir contigo en esta vida.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture2.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Mirada</h2>
+                <p>Tienes una forma de mirar que detiene el tiempo, un abismo de calma donde mis dudas se disuelven. En tus ojos no solo veo belleza, veo un refugio donde mi alma encuentra la paz que siempre buscó.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture3.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Sonrisa</h2>
+                <p>Tu sonrisa es, sin duda, la curva más hermosa que he visto en mi vida; tiene el poder de iluminar los días más oscuros y de hacerme sentir que, mientras tú sonrías, todo estará bien en mi mundo.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture4.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Belleza</h2>
+                <p>Eres hermosa de una manera que las palabras apenas pueden describir, no solo por lo que ven mis ojos, sino por esa luz interior que irradias y que hace que todo a tu alrededor se vuelva más bonito simplemente porque tú estás ahí.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture5.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tus Labios</h2>
+                <p>Cada palabra que pronuncias parece tener una melodía propia. Tus labios guardan el equilibrio perfecto entre dulzura y misterio, y en ellos se esconde la promesa de todos los besos que aún nos quedan por dar.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture6.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Esencia</h2>
+                <p>Lo que más amo de ti no se puede tocar, solo se puede sentir. Es esa energía única, esa mezcla de fuerza y delicadeza que te define y que me hace admirarte más cada día que pasa.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture7.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Voz</h2>
+                <p>Escuchar tu voz es mi sonido favorito, una melodía que calma mis tormentas internas. Tienes ese tono que acaricia el oído y que, incluso en medio del ruido, es lo único que necesito escuchar para sentirme en casa.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture8.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Inteligencia</h2>
+                <p>Me enamora la forma en que funciona tu mente, cómo ves el mundo con una perspectiva tan única y brillante. Hablar contigo es descubrir universos nuevos; eres tan hermosa por dentro como lo eres por fuera.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture9.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Presencia</h2>
+                <p>No necesitas hacer nada extraordinario para ser inolvidable; tu sola presencia llena cualquier habitación. Tienes un aura magnética que atrae lo mejor de mí y me hace querer ser una mejor persona a tu lado.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture10.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>El Misterio</h2>
+                <p>Hay en ti un misterio fascinante, como un libro infinito que nunca me canso de leer. Cada día descubro un nuevo matiz de tu personalidad que me confirma que eres la historia más bonita que he tenido la suerte de conocer.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture11.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Risa</h2>
+                <p>Si pudiera atrapar un sonido en un frasco, guardaría tu risa para los días tristes. Es contagiosa, genuina y llena de vida; es la música de fondo que quiero que acompañe todos mis momentos felices.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture12.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Piel</h2>
+                <p>La suavidad de tu piel es el mapa que mis manos quieren recorrer una y otra vez. Es el contacto eléctrico que me recuerda que esto es real, que estás aquí y que tengo la inmensa fortuna de abrazarte.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture13.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Complicidad</h2>
+                <p>Adoro esa conexión invisible que tenemos, donde una sola mirada basta para decirnos todo. Somos dos almas que se entienden en un idioma secreto, cómplices en este hermoso caos que es la vida.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture14.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Admiración</h2>
+                <p>Te miro y no dejo de asombrarme. Admiro tu fortaleza, tu valentía para enfrentar los retos y esa dulzura que mantienes intacta. Eres una obra de arte en constante movimiento y evolución.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture15.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Aroma</h2>
+                <p>Hay un aroma sutil en ti, una fragancia que no es perfume, sino tu propia esencia, que se queda grabada en mi memoria. Es el olor a hogar, a tranquilidad, a ese lugar al que siempre quiero volver.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture16.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tus Manos</h2>
+                <p>Me encanta la delicadeza y la fuerza de tus manos. Cuando se entrelazan con las mías, siento que encajan perfectamente, como si hubieran sido moldeadas la una para la otra desde el principio de los tiempos.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture17.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Refugio</h2>
+                <p>En tus brazos he encontrado el refugio más seguro contra cualquier tempestad. No importa qué tan difícil sea el día, saber que al final te veré hace que todo valga la pena y cobre sentido.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture18.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Bondad</h2>
+                <p>Tu belleza física es innegable, pero tu corazón es lo que realmente me cautiva. Tienes una bondad y una empatía que desbordan, y esa nobleza te hace infinitamente más preciosa a mis ojos.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture19.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Magia</h2>
+                <p>Haces magia sin trucos, solo siendo tú misma. Transformas momentos ordinarios en recuerdos extraordinarios, y tienes el don de convertir un simple día en una aventura inolvidable.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture20.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Inspiración</h2>
+                <p>Eres mi musa en el sentido más puro de la palabra. Tu existencia me inspira a soñar más alto, a luchar con más fuerza y a creer que la belleza verdadera existe y camina a mi lado.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture21.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tus Gestos</h2>
+                <p>Me enamoran tus pequeños gestos, esos que haces sin darte cuenta: cómo te acomodas el cabello, cómo frunces el ceño al concentrarte. Son esos detalles los que te hacen perfecta en tu imperfección.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture22.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Certeza</h2>
+                <p>En un mundo lleno de dudas, tú eres mi única certeza. Verte es saber que estoy en el lugar correcto, con la persona correcta, escribiendo la historia que siempre quise vivir.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture23.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Andar</h2>
+                <p>Tienes una elegancia natural al caminar, una forma de moverte por el mundo con seguridad y gracia que atrapa mi atención. Cada paso tuyo deja una huella imborrable en mi corazón.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture24.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Luz Propia</h2>
+                <p>No necesitas reflectores porque brillas con luz propia. Tienes una chispa divina en tu interior que ilumina a todos los que te rodean, y yo tengo la suerte de calentarme bajo ese sol.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture25.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Ternura</h2>
+                <p>Detrás de tu fortaleza hay una ternura infinita que me conmueve. La forma en que cuidas de lo que amas muestra la profundidad de tu alma, un alma hermosa que atesoro con todo mi ser.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture26.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>El Tiempo</h2>
+                <p>El tiempo a tu lado pasa de forma extraña: las horas parecen segundos cuando nos divertimos y los segundos parecen eternos cuando te extraño. Eres dueña de mi reloj y de mis instantes.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture27.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tus Ojos</h2>
+                <p>Podría escribir mil poemas sobre tus ojos y aún me faltarían palabras. Son dos luceros que guían mi camino, ventanas a un alma pura y vibrante donde deseo reflejarme por el resto de mis días.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture28.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Serenidad</h2>
+                <p>Estar contigo es sentir que el mundo baja su volumen. Transmites una serenidad que aquieta mis nervios y me hace recordar que lo verdaderamente importante es lo que estamos construyendo juntos.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture29.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Atracción</h2>
+                <p>La atracción que siento por ti va más allá de lo físico; es magnética, intelectual y espiritual. Me atrae todo lo que eres, todo lo que piensas y todo lo que sueñas ser.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture30.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Tu Nombre</h2>
+                <p>Incluso tu nombre suena diferente cuando lo pronuncio, como una palabra mágica que me llena la boca de dulzura. Es el nombre que quiero llevar grabado en mi mente en cada despertar.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture31.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Perfección</h2>
+                <p>Quizás la perfección no existe, pero tú eres lo más cercano a ella para mí. Eres perfecta en tus matices, en tu humanidad, en esa mezcla única de virtudes que me tiene completamente cautivado.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture32.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Gratitud</h2>
+                <p>Doy gracias cada día por tu existencia. Agradezco cada risa compartida, cada silencio cómodo y cada mirada cómplice. Eres el regalo más bonito que la vida me ha dado y prometo cuidarte siempre.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture33.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Te Elijo</h2>
+                <p>Te elijo a ti, hoy y siempre. Elijo tus ojos, tu sonrisa, tu caos y tu paz. Te elijo con todas tus facetas, porque cada parte de ti completa una parte de mí que no sabía que estaba vacía.</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="photo-frame">
+                <img src="images/picture34.jpg" alt="Recuerdo Especial">
+            </div>
+            <div class="letter-content">
+                <h2>Eternidad</h2>
+                <p>Si la eternidad existe, espero que se parezca a un instante contigo. Mi amor por ti no tiene límites ni condiciones; es un sentimiento puro que crece con cada latido, prometiendo amarte más allá del tiempo.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="moveSlide(-1)">Anterior</button>
+            <button class="nav-btn" onclick="moveSlide(1)">Siguiente</button>
+        </div>
+
+        
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        
+        // Función para mover las diapositivas
+        function moveSlide(step) {
+            const slides = document.querySelectorAll('.slide');
+            
+            // Quitar clase activa
+            slides[slideIndex].classList.remove('active');
+            
+            // Calcular nuevo índice
+            slideIndex += step;
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+            
+            // Agregar clase activa
+            slides[slideIndex].classList.add('active');
+        }
+
+        // Función para agregar recuerdo (Simulación)
+        function addMemory() {
+            const photoInput = document.getElementById('newPhoto');
+            const titleInput = document.getElementById('newTitle');
+            const msgInput = document.getElementById('newMsg');
+            const galleryWrapper = document.getElementById('galleryWrapper');
+
+            // Validar que se haya seleccionado algo
+            if (photoInput.files && photoInput.files[0] && titleInput.value && msgInput.value) {
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Crear el HTML del nuevo slide
+                    const newSlide = document.createElement('div');
+                    newSlide.classList.add('slide');
+                    
+                    newSlide.innerHTML = `
+                        <div class="photo-frame">
+                            <img src="${e.target.result}" alt="Nuevo Recuerdo">
+                        </div>
+                        <div class="letter-content">
+                            <h2>${titleInput.value}</h2>
+                            <p>${msgInput.value}</p>
+                        </div>
+                    `;
+                    
+                    // Agregarlo al DOM
+                    galleryWrapper.appendChild(newSlide);
+                    
+                    // Limpiar formulario
+                    photoInput.value = '';
+                    titleInput.value = '';
+                    msgInput.value = '';
+                    
+                    alert("¡Recuerdo agregado mágicamente!");
+                    
+                    // Ir automáticamente a la nueva foto (que es la última)
+                    const allSlides = document.querySelectorAll('.slide');
+                    // Ocultar la actual
+                    allSlides[slideIndex].classList.remove('active');
+                    // Actualizar índice a la última
+                    slideIndex = allSlides.length - 1;
+                    // Mostrar la nueva
+                    allSlides[slideIndex].classList.add('active');
+                }
+                
+                // Leer la imagen como URL de datos
+                reader.readAsDataURL(photoInput.files[0]);
+                
+            } else {
+                alert("Por favor selecciona una foto y escribe un mensaje.");
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intervalos del Tiempo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #02050e;
+            --text-color: #e0e0e0;
+            --highlight-color: #f3d250; /* Dorado suave */
+            --secondary-color: #5e82a8; /* Azul etéreo */
+        }
+
+        /* Reset y Estilos Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- FONDO ANIMADO Y EFECTOS --- */
+        
+        /* Capa del universo profundo */
+        .cosmos-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 110%; /* Un poco más ancho para el parallax */
+            height: 110%;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            z-index: -3;
+            transform: translate(-5%, -5%); /* Centrar el exceso */
+        }
+
+        /* Capa de nebulosa sutil */
+        .nebula-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+                radial-gradient(circle at 50% 50%, rgba(94, 130, 168, 0.2) 0%, transparent 60%);
+            background-size: cover;
+            z-index: -2;
+            opacity: 0.6;
+            animation: pulseLight 12s infinite ease-in-out;
+        }
+
+        @keyframes pulseLight {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* Contenedor de partículas JS */
+        #stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration, 5s) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+            50% { opacity: var(--opacity, 0.8); transform: translateY(-20px) scale(1); }
+        }
+
+
+        /* --- ESTRUCTURA DEL CONTENIDO --- */
+        .main-container {
+            min-height: 150vh; /* Para asegurar scroll */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Espaciadores para dar aire al poema */
+        .spacer-top { height: 20vh; }
+        .spacer-stanza { height: 15vh; }
+
+
+        /* --- ESTILOS DEL POEMA Y ANIMACIONES DE SCROLL --- */
+        
+        /* El contenedor de cada estrofa (inicialmente oculto) */
+        .poem-block {
+            max-width: 700px;
+            text-align: center;
+            opacity: 0;
+            /* Empieza borroso y desplazado hacia abajo */
+            transform: translateY(50px) scale(0.95);
+            filter: blur(8px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin-bottom: 4rem;
+        }
+
+        /* Clase que se añade con JS cuando entra en pantalla */
+        .poem-block.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+
+        h1.main-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 3rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(94, 130, 168, 0.5);
+            /* Animación inicial del título */
+            opacity: 0;
+            animation: titleAppear 3s ease-out forwards 1s;
+        }
+
+        @keyframes titleAppear {
+            0% { opacity: 0; letter-spacing: 15px; filter: blur(10px); }
+            100% { opacity: 1; letter-spacing: 6px; filter: blur(0); }
+        }
+
+        .verse-line {
+            font-size: 1.6rem;
+            line-height: 2.2;
+            font-weight: 300;
+            color: rgba(224, 224, 224, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        /* Resaltado especial para MOMENTOS */
+        .highlight-moments {
+            font-family: 'Cinzel Decorative', cursive;
+            color: var(--highlight-color);
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: inline-block;
+            position: relative;
+            text-shadow: 0 0 15px var(--highlight-color);
+            animation: goldenPulse 4s infinite ease-in-out;
+        }
+
+        @keyframes goldenPulse {
+            0%, 100% { text-shadow: 0 0 10px var(--highlight-color), 0 0 20px var(--highlight-color); color: var(--highlight-color); }
+            50% { text-shadow: 0 0 30px var(--highlight-color), 0 0 50px rgba(243, 210, 80, 0.5); color: #fffbe3; }
+        }
+
+        /* Un pequeño separador visual cósmico */
+        .cosmic-divider {
+            height: 2px;
+            width: 100px;
+            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+            margin: 3rem auto;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1.main-title { font-size: 2rem; letter-spacing: 3px; }
+            .verse-line { font-size: 1.3rem; line-height: 1.8; }
+            .highlight-moments { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cosmos-background" id="parallax-bg"></div>
+    <div class="nebula-layer"></div>
+    <div id="stars-container"></div>
+
+    <main class="main-container">
+        <div class="spacer-top"></div>
+
+        <h1 class="main-title">Entre Momentos</h1>
+
+        <section class="poem-block">
+            <p class="verse-line">Entre los segundos que se escapan</p>
+            <p class="verse-line">cuando tu nombre aún no llega a mis labios,</p>
+            <p class="verse-line">hay un suspiro secreto</p>
+            <p class="verse-line" style="color: var(--secondary-color);">donde te pienso sin medida.</p>
+        </section>
+
+        <div class="cosmic-divider"></div>
+
+        <section class="poem-block">
+            <p class="verse-line">Porque el amor no vive solo en las palabras,</p>
+            <p class="verse-line">sino en esos silencios suaves</p>
+            <p class="verse-line">que tiemblan entre un mensaje y otro,</p>
+            <p class="verse-line">cuando el corazón imagina</p>
+            <p class="verse-line">lo que las manos no alcanzan.</p>
+        </section>
+
+        <div class="spacer-stanza"></div>
+
+        <section class="poem-block">
+            <p class="verse-line">En esos <span class="highlight-moments">MOMENTOS</span> invisibles</p>
+            <p class="verse-line">mi mente te sueña despacio:</p>
+            <p class="verse-line">te veo acercarte como una promesa,</p>
+            <p class="verse-line">como una verdad que no necesita pruebas.</p>
+            <p class="verse-line" style="font-style: italic; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px;">Y todo el universo parece inclinarse para dejarnos estar.</p>
+        </section>
+
+        <div class="spacer-stanza"></div>
+
+        <section class="poem-block">
+            <p class="verse-line">Eres la pausa que espero,</p>
+            <p class="verse-line">el intervalo que da sentido al tiempo.</p>
+            <p class="verse-line">Entre latido y latido te descubro,</p>
+            <p class="verse-line">no por lo que dices,</p>
+            <p class="verse-line">sino por lo que haces sentir.</p>
+        </section>
+
+        <div class="cosmic-divider"></div>
+
+        <section class="poem-block">
+            <p class="verse-line">Por eso amo los instantes que pasan,</p>
+            <p class="verse-line">pero adoro esos <span class="highlight-moments">MOMENTOS</span></p>
+            <p class="verse-line">donde no ocurre nada…</p>
+            <p class="verse-line" style="font-size: 1.8rem; margin-top: 1.5rem; color: var(--secondary-color);">y aun así, estás conmigo.</p>
+        </section>
+
+        <div class="spacer-top"></div>
+    </main>
+
+    <script>
+        // 1. GENERADOR DE PARTÍCULAS (ESTRELLAS)
+        document.addEventListener('DOMContentLoaded', () => {
+            const starsContainer = document.getElementById('stars-container');
+            const numStars = 100; // Cantidad de estrellas
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Posición aleatoria
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                // Tamaño aleatorio
+                const size = Math.random() * 3;
+                // Duración y retraso de animación aleatorios para que no parpadeen igual
+                const duration = 3 + Math.random() * 7;
+                const delay = Math.random() * 5;
+                const opacity = 0.4 + Math.random() * 0.6;
+
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                // Pasamos variables CSS personalizadas al elemento
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.animationDelay = `${delay}s`;
+                star.style.setProperty('--opacity', opacity);
+
+                starsContainer.appendChild(star);
+            }
+        });
+
+        // 2. EFECTO PARALLAX EN EL FONDO AL MOVER EL MOUSE
+        const parallaxBg = document.getElementById('parallax-bg');
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            // Movemos el fondo ligeramente en dirección opuesta al mouse
+            const moveX = (mouseX - 0.5) * 20; // Rango de movimiento de 20px
+            const moveY = (mouseY - 0.5) * 20;
+
+            parallaxBg.style.transform = `translate(calc(-5% + ${moveX * -1}px), calc(-5% + ${moveY * -1}px))`;
+        });
+
+
+        // 3. INTERSECTION OBSERVER (APARICIÓN AL HACER SCROLL)
+        // Esta API nativa detecta cuándo un elemento entra en el viewport
+        const observerOptions = {
+            root: null, // Usa el viewport del navegador
+            threshold: 0.2, // Dispara cuando el 20% del elemento es visible
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // Si el elemento entra en pantalla
+                if (entry.isIntersecting) {
+                    // Añadimos la clase 'visible' que dispara la transición CSS
+                    entry.target.classList.add('visible');
+                    // Dejamos de observar este elemento una vez que ha aparecido
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Seleccionamos todos los bloques de poema y les aplicamos el observador
+        const poemBlocks = document.querySelectorAll('.poem-block');
+        poemBlocks.forEach(block => {
+            observer.observe(block);
+        });
+
+    </script>
+</body>
+</html>

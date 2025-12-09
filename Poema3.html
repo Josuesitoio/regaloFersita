@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Su Belleza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Configuración General --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #020205; /* Fondo casi negro */
+            font-family: 'Quicksand', sans-serif;
+            height: 100vh;
+            overflow: hidden; /* Para que nada se salga */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        /* --- Fondo de Luces Grandes (Blobs) --- */
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: blur(80px); /* Esto hace que las luces se vean borrosas y suaves */
+            opacity: 0.6;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        /* Luz 1: Violeta Grande */
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: #7b2cbf;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        /* Luz 2: Azul Profundo */
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: #3a0ca3;
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -5s;
+        }
+
+        /* Luz 3: Un toque de rosa/rojo vibrante */
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: #f72585;
+            top: 40%;
+            left: 40%;
+            animation-duration: 25s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 80px) scale(1.1); }
+            100% { transform: translate(-20px, -50px) scale(0.9); }
+        }
+
+        /* --- Contenedor del Poema --- */
+        .card {
+            background: rgba(255, 255, 255, 0.03); /* Casi transparente */
+            backdrop-filter: blur(20px); /* Efecto vidrio fuerte */
+            -webkit-backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto; /* Scroll si la pantalla es muy pequeña */
+        }
+
+        /* Ocultar barra scroll */
+        .card::-webkit-scrollbar { display: none; }
+
+        /* --- Título --- */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #fff, #f72585);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(247, 37, 133, 0.3);
+        }
+
+        /* --- Texto del Poema --- */
+        .stanza {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0; /* Empieza invisible */
+            animation: appear 2s ease forwards;
+        }
+
+        /* Retrasos para que aparezca suavemente */
+        .s1 { animation-delay: 0.5s; }
+        .s2 { animation-delay: 1.5s; }
+        .s3 { animation-delay: 2.5s; }
+        .s4 { animation-delay: 3.5s; }
+        .s5 { animation-delay: 4.5s; }
+        .s6 { animation-delay: 5.5s; }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Palabras Resaltadas --- */
+        .highlight {
+            font-weight: 600;
+            color: #4cc9f0; /* Un cyan bonito y suave */
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.4);
+        }
+
+        .highlight-gold {
+            font-weight: 600;
+            color: #ffd60a;
+        }
+
+        .final-line {
+            font-size: 2rem;
+            font-family: 'Dancing Script', cursive;
+            color: #f72585;
+            display: block;
+            margin-top: 10px;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+        
+        .final-line:hover {
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="card">
+        <h1>Su belleza</h1>
+
+        <div class="stanza s1">
+            <span class="highlight">La belleza</span> dejó de ser una idea lejana<br>
+            desde que camina a mi lado.
+        </div>
+
+        <div class="stanza s2">
+            Hoy ya no la busco en el mundo,<br>
+            porque todo lo hermoso<br>
+            se ordena a partir de ti.<br>
+            Antes había paisajes, rostros, promesas…<br>
+            ahora hay comparación,<br>
+            y ninguna te alcanza.
+        </div>
+
+        <div class="stanza s3">
+            Conozco la <span class="highlight">luz de tus ojos</span><br>
+            como se conoce una verdad irrefutable,<br>
+            y tu sonrisa —esa que tantas veces me ha vencido—<br>
+            es la medida exacta<br>
+            de todo lo que considero bello.
+        </div>
+
+        <div class="stanza s4">
+            Tu apariencia deslumbra,<br>
+            pero es apenas el inicio.<br>
+            Lo inconmensurable vive en tu interior:<br>
+            tu <span class="highlight-gold">espíritu libre</span>,<br>
+            tu forma única de sentir y nombrar la vida,<br>
+            ese universo tuyo que ahora también es mío.
+        </div>
+
+        <div class="stanza s5">
+            He entendido, contigo,<br>
+            que la belleza no es plural.<br>
+            Para mí tiene un solo nombre,<br>
+            un solo rostro,<br>
+            una sola manera de existir.
+        </div>
+
+        <div class="stanza s6">
+            Y aunque el mundo se empeñe<br>
+            en ofrecer mil maravillas,<br>
+            yo ya lo sé:<br>
+            lo más hermoso que existe<br>
+            —al menos para mí—<br>
+            <span class="final-line">eres tú.</span>
+        </div>
+    </div>
+
+</body>
+</html>

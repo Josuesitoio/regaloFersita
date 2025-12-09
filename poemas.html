@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poesía en el Viento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <script>
+      // Configuración de Colores Temáticos en Tailwind
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'beast-blue': '#0F1F38',
+              'belle-gold': '#D4AF37',
+              'rose-red': '#8B0000',
+              'parchment': '#FDFBF0',
+            },
+            fontFamily: {
+              'serif': ['Cinzel', 'serif'],
+              'cursive': ['Great Vibes', 'cursive'],
+            },
+            boxShadow: {
+                'magical': '0 0 15px rgba(212, 175, 55, 0.3), 0 10px 25px rgba(0,0,0,0.8)',
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+        /* --- ESTILOS BASE --- */
+        :root {
+            --firefly-color: #D4AF37;
+        }
+
+        body {
+            /* Fondo Mágico Radial */
+            background: radial-gradient(circle, #1a2e52 0%, #000000 100%);
+            min-height: 100vh;
+        }
+
+        /* --- Animaciones --- */
+        .stanza {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .stanza.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Efecto Luciérnagas (Ajustado al oro) */
+        .firefly-card-bg { position: absolute; inset: 0; z-index: 0; }
+        .firefly {
+            position: absolute; border-radius: 50%;
+            background: var(--firefly-color);
+            box-shadow: 0 0 10px var(--firefly-color);
+            animation: drift 10s infinite ease-in-out, pulse 3s infinite ease-in-out;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); opacity: 1; }
+            50% { transform: translate(calc(var(--i) * 20px), calc(var(--i) * -20px)); }
+            100% { transform: translate(calc(var(--i) * -10px), -100%); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; box-shadow: 0 0 15px var(--firefly-color); }
+        }
+
+        /* Partículas Footer */
+        .particle {
+            position: absolute;
+            background-color: rgba(212, 175, 55, 0.3); /* Partículas doradas */
+            border-radius: 50%;
+            animation: rise 15s infinite linear;
+            bottom: 0;
+        }
+        @keyframes rise {
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+
+/* --- MENÚ DE NAVEGACIÓN --- */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 31, 56, 0.95);
+            border-bottom: 2px solid var(--belle-gold);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-list li {
+            padding: 20px 0;
+        }
+
+        .nav-list a {
+            text-decoration: none;
+            color: var(--belle-gold);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-list a:hover, .nav-list a.active {
+            color: #fff;
+            text-shadow: 0 0 10px var(--belle-gold);
+        }
+
+        /* Indicador de página activa */
+        .nav-list a.active::after {
+            content: '❧'; /* Un adorno floral pequeño */
+            display: block;
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1.5rem;
+            color: var(--rose-red);
+        }
+
+
+    </style>
+</head>
+<body class="text-parchment font-serif antialiased selection:bg-rose-red selection:text-white">
+
+      <nav class="main-nav">
+        <ul class="nav-list">
+            <li><a href="index.html">Galería</a></li>
+            <li><a href="cartas.html">Cartas</a></li>
+            <li><a href="poemas.html"  class="active" >Poemas</a></li>
+        </ul>
+    </nav>
+
+    <main class="pt-32 pb-16 min-h-screen relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center mb-16 stanza">
+                <h1 class="text-5xl md:text-6xl font-bold text-belle-gold mb-6 drop-shadow-lg border-b-2 border-rose-red inline-block pb-4">
+                    Mis Pensamientos de Fers
+                </h1>
+                <p class="max-w-2xl mx-auto font-cursive text-2xl text-parchment/90 leading-relaxed mt-4">
+                    "Son trazos de tinta, ecos de una imaginación inquieta... ¿qué es la pluma sino un sismógrafo del alma? <hr>
+                    <p> 
+                        -
+                    </p>
+                    Para: <span class="text-belle-gold">Fernanda Buelna</span>
+                    
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+
+                <div class="relative group h-full stanza" style="transition-delay: 100ms;">
+                    <div class="absolute -inset-[3px] bg-gradient-to-r from-belle-gold via-rose-red to-belle-gold rounded-lg opacity-70 blur group-hover:opacity-100 transition duration-500"></div>
+                    
+                    <div class="relative h-full bg-beast-blue border-2 border-belle-gold rounded-lg overflow-hidden shadow-magical hover:transform hover:scale-[1.02] transition-all duration-300">
+                        <div class="firefly-card-bg">
+                            <div class="firefly" style="--i: 1; width: 3px; height: 3px; top: 85%; left: 10%;"></div>
+                            <div class="firefly" style="--i: -1; width: 4px; height: 4px; top: 60%; left: 35%;"></div>
+                            <div class="firefly" style="--i: 2; width: 3px; height: 3px; top: 40%; left: 80%;"></div>
+                        </div>
+                        
+                        <div class="relative z-10 p-8 flex flex-col h-full bg-beast-blue/80 backdrop-blur-sm">
+                            <h3 class="text-3xl font-bold text-rose-red border-b border-belle-gold/30 pb-2 mb-4">Mi deuda al tiempo</h3>
+                            <p class="flex-grow font-cursive text-2xl text-parchment opacity-90">
+                                "y mis ojos, obedientes, te siguieron sin quererlo evitar..."
+                            </p>
+                            <a href="Poema1.html" class="mt-6 self-start text-belle-gold font-bold uppercase tracking-widest hover:text-white transition-colors text-sm">
+                                Leer completo &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group h-full stanza" style="transition-delay: 200ms;">
+                    <div class="absolute -inset-[3px] bg-belle-gold rounded-lg opacity-40 group-hover:opacity-80 transition duration-500"></div>
+                    <div class="relative h-full bg-beast-blue border-2 border-belle-gold rounded-lg overflow-hidden shadow-magical p-8 hover:transform hover:scale-[1.02] transition-all duration-300">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-rose-red/20 rounded-full blur-xl group-hover:bg-rose-red/30 transition-all"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+                        <div class="relative z-10 flex flex-col h-full">
+                            <h2 class="text-2xl font-bold text-belle-gold mb-2">Entre Momentos...</h2>
+                            <div class="w-12 h-1 bg-rose-red mb-4"></div>
+                            <p class="flex-grow font-cursive text-2xl text-gray-300">
+                                "Porque el amor no solo vive de palabras..."
+                            </p>
+                            <a href="Poema2.html" class="mt-6 self-start text-rose-red font-bold uppercase tracking-widest hover:text-belle-gold transition-colors text-sm">
+                                Leer completo &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group h-full stanza" style="transition-delay: 300ms;">
+                    <div class="relative h-full bg-parchment border-4 border-double border-beast-blue rounded-lg overflow-hidden shadow-magical hover:transform hover:scale-[1.02] transition-all duration-300">
+                        <div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22%230F1F38%22%20fill-opacity%3D%221%22%3E%3Cpath%20d%3D%22M0%200h20L0%2020z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E')]"></div>
+                        
+                        <div class="relative z-10 p-8 flex flex-col h-full">
+                            <h2 class="text-3xl font-bold text-beast-blue mb-4">Su belleza</h2>
+                            <p class="flex-grow font-cursive text-3xl text-rose-red leading-snug">
+                                "tu apariencia deslumbra, pero es apenas el inicio"
+                            </p>
+                            <a href="Poema3.html" class="mt-6 self-start text-beast-blue font-bold uppercase tracking-widest hover:text-rose-red transition-colors text-sm border-b border-beast-blue">
+                                Leer completo &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group h-full stanza" style="transition-delay: 400ms;">
+                    <div class="relative h-full bg-black border border-belle-gold rounded-lg overflow-hidden shadow-magical hover:shadow-rose-red/40 hover:transform hover:scale-[1.02] transition-all duration-300">
+                        <div class="absolute inset-0 bg-radial-gradient from-beast-blue/50 to-transparent opacity-50"></div>
+                        
+                        <div class="relative z-10 p-8 flex flex-col h-full text-center items-center justify-center border-4 border-beast-blue m-1">
+                            <h2 class="text-xl font-bold text-belle-gold uppercase tracking-[0.2em] mb-4">
+                               Bella y Bestia
+                            </h2>
+                            <span class="text-rose-red text-2xl mb-4">✦</span>
+                            <p class="font-cursive text-2xl text-gray-300">
+                                "En tu <span class="text-belle-gold"> Mirada</span> nada se corrigio, todo se <span class="text-belle-gold"> Abrazo</span>"
+                            </p>
+                            <a href="Poema4.html" class="mt-8 px-6 py-2 border border-belle-gold text-belle-gold hover:bg-belle-gold hover:text-beast-blue transition-colors uppercase text-xs font-bold tracking-widest">
+                                Leer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // --- ANIMACIÓN AL HACER SCROLL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.stanza').forEach(el => observer.observe(el));
+
+        // --- PARTÍCULAS DEL FOOTER ---
+        const footerParticlesContainer = document.getElementById('footer-particles');
+        if (footerParticlesContainer) {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}%`;
+                // Tamaño aleatorio
+                const size = Math.random() * 4 + 1; 
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                // Retraso aleatorio
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                // Opacidad aleatoria para efecto brillo
+                particle.style.opacity = Math.random() * 0.5 + 0.2;
+                
+                footerParticlesContainer.appendChild(particle);
+            }
+        }
+    });
+    </script>
+</body>
+</html>

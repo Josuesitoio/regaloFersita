@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te reconocí en el cielo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+        :root {
+            --bg-deep: #02060c;
+            --bg-rich: #0a1525;
+            --text-gold-light: #fff3e0;
+            --text-gold-rich: #ffd700;
+            --star-color: rgba(255, 223, 128, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(ellipse at bottom, var(--bg-rich) 0%, var(--bg-deep) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-gold-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ============================
+           Fondo de Estrellas Doradas (Mejorado)
+        ============================ */
+        .stars-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; overflow: hidden;
+        }
+
+        .star-layer {
+            position: absolute;
+            background: transparent;
+            /* Eliminado el opacity: 0 inicial para que ya estén ahí */
+        }
+
+        /* NUEVA CAPA BASE: Muchas estrellas pequeñas, casi estáticas (parpadeo muy lento) */
+        .s-base {
+            width: 1px; height: 1px;
+            box-shadow:
+                2vw 15vh var(--star-color), 8vw 42vh var(--star-color), 15vw 85vh var(--star-color),
+                22vw 25vh var(--star-color), 30vw 65vh var(--star-color), 38vw 92vh var(--star-color),
+                45vw 10vh var(--star-color), 52vw 55vh var(--star-color), 60vw 30vh var(--star-color),
+                68vw 75vh var(--star-color), 75vw 20vh var(--star-color), 82vw 90vh var(--star-color),
+                90vw 40vh var(--star-color), 96vw 60vh var(--star-color), 5vw 5vh var(--star-color),
+                50vw 50vh var(--star-color), 95vw 95vh var(--star-color), 12vw 33vh var(--star-color),
+                88vw 12vh var(--star-color), 42vw 78vh var(--star-color), 71vw 48vh var(--star-color);
+            animation: pulse-slow 8s ease-in-out infinite alternate;
+            opacity: 0.7;
+        }
+
+        /* Capas existentes: parpadeo más activo */
+        .s1 {
+            width: 2px; height: 2px;
+            box-shadow: 12vw 15vh var(--star-color), 35vw 45vh var(--star-color), 82vw 12vh var(--star-color), 91vw 78vh var(--star-color), 15vw 82vh var(--star-color), 55vw 22vh var(--star-color), 68vw 65vh var(--star-color), 42vw 92vh var(--star-color);
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+        .s2 {
+            width: 3px; height: 3px;
+            box-shadow: 25vw 25vh var(--star-color), 75vw 35vh var(--star-color), 45vw 55vh var(--star-color), 10vw 95vh var(--star-color), 95vw 15vh var(--star-color);
+            animation: twinkle 3s ease-in-out infinite alternate -1s; /* Start delay negativo */
+        }
+        .s3 {
+            width: 4px; height: 4px;
+            box-shadow: 50vw 50vh var(--star-color), 85vw 85vh var(--star-color), 5vw 5vh var(--star-color);
+            animation: twinkle 2.5s ease-in-out infinite alternate -0.5s;
+        }
+
+        /* Animación para las estrellas base (muy sutil) */
+        @keyframes pulse-slow {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        /* Animación para las estrellas activas (ajustada para no desaparecer) */
+        @keyframes twinkle {
+            0% { opacity: 0.5; transform: scale(0.9); } /* Mínimo de opacidad más alto */
+            100% { opacity: 1; transform: scale(1.2); filter: brightness(1.8); }
+        }
+
+        /* ============================
+           Estrellas Fugaces (Mismo código)
+        ============================ */
+        .shooting-star {
+            position: absolute; top: 50%; left: 50%; height: 2px;
+            background: linear-gradient(-45deg, rgba(255, 235, 153, 1), rgba(0, 0, 255, 0));
+            filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+            animation: tail 3000ms ease-in-out infinite, shooting 3000ms ease-in-out infinite;
+        }
+        .shooting-star::before {
+            content: ''; position: absolute; top: calc(50% - 2px); right: 0; height: 4px; width: 30px;
+            background: linear-gradient(-45deg, rgba(255, 255, 255, 0), rgba(255, 235, 153, 1) 100%);
+            border-radius: 100%; transform: translateX(50%) rotateZ(45deg);
+            animation: shining 3000ms ease-in-out infinite;
+        }
+        .shoot-1 { top: 0; left: 20%; animation-delay: 1s; }
+        .shoot-2 { top: 30%; left: -20%; animation-delay: 3.5s; animation-duration: 4s; }
+        .shoot-3 { top: -10%; left: 80%; animation-delay: 6s; animation-duration: 2.5s; }
+        .shoot-4 { top: 60%; left: 110%; animation-delay: 8s; animation-duration: 3.5s; }
+
+        @keyframes tail { 0% { width: 0; } 30% { width: 150px; } 100% { width: 0; } }
+        @keyframes shooting { 0% { transform: translateX(0) translateY(0) rotateZ(45deg); opacity: 1; } 100% { transform: translateX(800px) translateY(800px) rotateZ(45deg); opacity: 0; } }
+        @keyframes shining { 0% { width: 0; } 50% { width: 30px; } 100% { width: 0; } }
+
+        /* ============================
+           Contenedor del Poema (Mismo código)
+        ============================ */
+        .poem-container {
+            max-width: 700px; padding: 5rem 3rem; text-align: center; position: relative; z-index: 10;
+            background: rgba(20, 25, 40, 0.4); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 215, 0, 0.15); border-radius: 12px;
+            box-shadow: 0 0 60px rgba(255, 160, 0, 0.15), inset 0 0 20px rgba(255, 215, 0, 0.05);
+            margin: 2rem;
+        }
+        .poem-container::before {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 120%; height: 120%; background: radial-gradient(circle, rgba(255, 200, 100, 0.08) 0%, transparent 70%);
+            z-index: -1; filter: blur(30px);
+        }
+        h1 {
+            font-family: 'Cinzel', serif; font-size: 3rem; color: var(--text-gold-rich); margin-bottom: 3.5rem;
+            letter-spacing: 3px; text-transform: uppercase; animation: goldenTitleReveal 3s ease-out forwards;
+            opacity: 0; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        .stanza {
+            margin-bottom: 2.5rem; font-size: 1.4rem; line-height: 1.8; opacity: 0;
+            transform: translateY(20px); animation: stanzaFadeUp 1.5s ease-out forwards;
+        }
+        .stanza:nth-of-type(1) { animation-delay: 1s; }
+        .stanza:nth-of-type(3) { animation-delay: 2.5s; }
+        .stanza:nth-of-type(5) { animation-delay: 4s; }
+        .stanza:nth-of-type(7) { animation-delay: 5.5s; }
+        .stanza:hover { color: #fff; text-shadow: 0 0 10px rgba(255, 215, 0, 0.6); transition: all 0.5s ease; }
+        .highlight { color: var(--text-gold-rich); font-style: italic; font-weight: 600; text-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+        .divider {
+            height: 1px; width: 0%; background: linear-gradient(90deg, transparent, var(--text-gold-rich), transparent);
+            margin: 2rem auto; opacity: 0.6; animation: dividerGrow 2s ease-out forwards;
+        }
+        .divider:nth-of-type(2) { animation-delay: 2s; }
+        .divider:nth-of-type(4) { animation-delay: 3.5s; }
+        .divider:nth-of-type(6) { animation-delay: 5s; }
+
+        @keyframes goldenTitleReveal { 0% { opacity: 0; transform: scale(0.9); filter: blur(10px); } 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
+        @keyframes stanzaFadeUp { to { opacity: 1; transform: translateY(0); } }
+        @keyframes dividerGrow { to { width: 60px; } }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; margin-bottom: 2.5rem; }
+            .stanza { font-size: 1.15rem; }
+            .poem-container { padding: 3rem 1.5rem; margin: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-container">
+        <div class="star-layer s-base"></div>
+        <div class="star-layer s1"></div>
+        <div class="star-layer s2"></div>
+        <div class="star-layer s3"></div>
+    </div>
+
+    <div class="stars-container" style="z-index: -1;">
+        <span class="shooting-star shoot-1"></span>
+        <span class="shooting-star shoot-2"></span>
+        <span class="shooting-star shoot-3"></span>
+        <span class="shooting-star shoot-4"></span>
+    </div>
+
+    <main class="poem-container">
+        <h1>Mi deuda con el Tiempo</h1>
+
+        <div class="stanza">
+            Te reconocí en el cielo<br>
+            como quien halla, en un <span class="highlight">astrolabio viejo</span>,<br>
+            la línea exacta que llevaba años temblando en silencio.<br>
+            El firmamento, obstinado guardián,<br>
+            había escondido tu brillo en sus pliegues<br>
+            solo para revelarlo ahora,<br>
+            cuando mis manos ya no temían medir la noche.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stanza">
+            Entonces trazamos rutas…<br>
+            y por primera vez, ningún trazo abrió grietas.<br>
+            El pasado —ese capitán furioso—<br>
+            se sentó en la borda, inerte,<br>
+            dejó que la marea hablara por nosotros,<br>
+            que el mar hiciera lo que antaño no supo:<br>
+            volvernos <span class="highlight">orilla</span>.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stanza">
+            Tu luz,<br>
+            incansable buscadora del norte,<br>
+            se inclinó sobre mi horizonte<br>
+            como quien regresa a la constelación que le nombró.<br>
+            Y mis ojos, obedientes,<br>
+            te siguieron sin quererlo evitar.<br>
+            Ahí comprendí que no era recuerdo:<br>
+            era una <span class="highlight">llama antigua</span>, aún respirando<br>
+            bajo la brújula del pecho.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stanza">
+            Cuando el viento nos reunió,<br>
+            lo entendí todo:<br>
+            no era un roce —era volcán contenido,<br>
+            era faro encendido,<br>
+            era el eco de dos mapas que, por fin,<br>
+            se reconocían <span class="highlight">grieta por grieta</span>.
+        </div>
+    </main>
+
+</body>
+</html>
