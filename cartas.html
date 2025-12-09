@@ -10,29 +10,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           1. VARIABLES Y CONFIGURACIÓN GLOBAL
-           ========================================= */
         :root {
-            --beast-blue: #0f182e;       
+            --beast-blue: #0f182e;      
             --beast-blue-light: #1c2b4d; 
-            --belle-gold: #cfa144;       
+            --belle-gold: #cfa144;      
             --belle-gold-dim: #8a6a26;   
             --belle-gold-bright: #ffd700;
-            --rose-red: #b30000;         
-            --rose-red-glow: #ff4d4d;    
-            --parchment-bg: #fdfbf7;     
-            --ink-color: #2b2b2b;        
+            --rose-red: #b30000;      
+            --rose-red-glow: #ff4d4d;   
+            --parchment-bg: #fdfbf7;    
+            --ink-color: #2b2b2b;       
         }
 
         * {
             box-sizing: border-box;
             scrollbar-width: thin;
             scrollbar-color: var(--belle-gold) var(--beast-blue);
-            -webkit-tap-highlight-color: transparent; /* Elimina flash azul en móvil */
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Scrollbar Webkit */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--beast-blue); }
         ::-webkit-scrollbar-thumb { background-color: var(--belle-gold-dim); border-radius: 10px; }
@@ -46,8 +42,8 @@
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231c2b4d' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             font-family: 'Lato', sans-serif;
             color: #ecf0f1;
-            height: 100vh; /* Altura fija viewport */
-            overflow: hidden; /* Importante para el layout tipo App */
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
@@ -57,12 +53,9 @@
             pointer-events: none; z-index: 1;
         }
 
-        /* =========================================
-           2. MENÚ DE NAVEGACIÓN
-           ========================================= */
         .main-nav {
-            flex-shrink: 0; /* No encoger */
-            height: 60px;   /* Altura reducida para móvil */
+            flex-shrink: 0;
+            height: 60px;
             background-color: rgba(15, 31, 56, 0.95);
             border-bottom: 2px solid var(--belle-gold);
             z-index: 1000;
@@ -95,11 +88,8 @@
             50% { transform: translateY(-3px); opacity: 1; }
         }
 
-        /* =========================================
-           3. ESTRUCTURA PRINCIPAL (LAYOUT)
-           ========================================= */
         .app-container {
-            flex: 1; /* Ocupa el resto de la pantalla */
+            flex: 1;
             display: flex;
             position: relative;
             overflow: hidden;
@@ -107,7 +97,6 @@
             z-index: 10;
         }
 
-        /* --- PANEL LATERAL (LISTA) --- */
         .sidebar {
             width: 350px;
             height: 100%;
@@ -158,7 +147,6 @@
         .card-asunto { font-size: 0.85rem; color: #999; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .card-fecha { font-size: 0.65rem; color: #666; margin-top: 6px; display: block; text-align: right; font-style: italic; }
 
-        /* --- ZONA DE LECTURA --- */
         .reading-pane {
             flex: 1;
             height: 100%;
@@ -172,9 +160,8 @@
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        /* Botón "Volver" (Solo visible en móvil mediante JS/CSS) */
         .back-button {
-            display: none; /* Por defecto oculto en escritorio */
+            display: none;
             position: absolute;
             top: 15px; left: 15px;
             z-index: 100;
@@ -190,23 +177,20 @@
             align-items: center; gap: 5px;
         }
 
-        /* El Papel */
         .parchment {
             background-color: var(--parchment-bg);
-            width: 100%; height: 100%; /* Full en móvil */
-            max-width: 900px; max-height: 90vh; /* Max en escritorio */
-            padding: 40px 30px 80px 30px; /* Padding extra abajo para scroll */
+            width: 100%; height: 100%;
+            max-width: 900px; max-height: 90vh;
+            padding: 40px 30px 80px 30px;
             color: var(--ink-color);
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             position: relative;
-            overflow-y: auto; /* Scroll interno del papel */
+            overflow-y: auto;
             opacity: 0; transform: translateY(30px);
             transition: all 0.5s ease-out;
-            /* Textura papel */
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
         
-        /* En escritorio damos margen y borde redondeado */
         @media (min-width: 769px) {
             .parchment {
                 height: 90%;
@@ -240,9 +224,6 @@
         .empty-state { text-align: center; color: var(--belle-gold); padding: 20px; }
         .empty-icon { font-size: 4rem; display: block; margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--rose-red)); }
 
-        /* =========================================
-           4. RESPONSIVE / MÓVIL (LÓGICA APP)
-           ========================================= */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -254,23 +235,22 @@
                 width: 100%;
                 position: absolute;
                 top: 0; left: 0;
-                transform: translateX(100%); /* Oculto a la derecha */
-                background-color: var(--beast-blue); /* Fondo sólido para tapar lista */
+                transform: translateX(100%);
+                background-color: var(--beast-blue);
                 z-index: 30;
             }
             
-            /* Cuando la clase 'reading-mode' está activa en el contenedor padre */
             .app-container.reading-mode .sidebar {
-                transform: translateX(-30%); /* Efecto parallax sutil */
+                transform: translateX(-30%);
                 opacity: 0;
             }
             
             .app-container.reading-mode .reading-pane {
-                transform: translateX(0); /* Entra en escena */
+                transform: translateX(0);
             }
 
             .back-button {
-                display: flex; /* Mostrar botón volver */
+                display: flex;
             }
 
             .nav-list { gap: 15px; }
@@ -324,14 +304,12 @@
 
     <script>
         const CARTAS_ENCANTADAS = [
-           // --- CARTA 1 ---
             {
                 id: 1,
                 remitente: "Jochue",
                 destinatario: "Fersita",
                 fecha: "8 de Diciembre, 2025",
                 asunto: "Un regalo hecho con el corazón",
-                // NOTA: Uso comillas invertidas ( ` ) al inicio y al final
                 cuerpo: `Esta página es un regalo que preparé con cariño para usted; espero de corazón que le encante.
 
 Confieso que estoy un poco nervioso por lo que pensará y por saber si le gustará.
@@ -346,9 +324,8 @@ Con todo mi amor:
 Te amo, Fersitaaaa 💕
 
 Atentamente,`
-            }, // <--- ¡IMPORTANTE! Esta coma separa la carta 1 de la 2
+            },
 
-            // --- CARTA 2 ---
             {
                 id: 2,
                 remitente: "Jochue",
@@ -387,10 +364,9 @@ que solo responden a ti.`
 
         const appContainer = document.getElementById('app-container');
         const listaCartasEl = document.getElementById('lista-cartas');
-        const zonaLecturaEl = document.getElementById('zona-lectura'); // Contenedor padre
+        const zonaLecturaEl = document.getElementById('zona-lectura');
         const buscadorInput = document.getElementById('buscador');
         
-        // Elemento donde se renderiza el papel (hijo de zona-lectura)
         let parchmentEl = null; 
 
         function renderizarLista(cartas) {
@@ -414,16 +390,12 @@ que solo responden a ti.`
             const carta = CARTAS_ENCANTADAS.find(c => c.id === id);
             if (!carta) return;
 
-            // 1. Marcar activo en la lista
             document.querySelectorAll('.message-card').forEach(c => c.classList.remove('active'));
             const cardActiva = document.querySelector(`.message-card[data-id="${id}"]`);
             if(cardActiva) cardActiva.classList.add('active');
 
-            // 2. Activar modo lectura (Desplaza la pantalla en móvil)
             appContainer.classList.add('reading-mode');
 
-            // 3. Renderizar contenido
-            // Limpiamos contenido previo PERO mantenemos el botón de volver
             const contenidoPrevio = zonaLecturaEl.querySelectorAll('.parchment, .empty-state');
             contenidoPrevio.forEach(el => el.remove());
 
@@ -447,24 +419,19 @@ que solo responden a ti.`
 
             zonaLecturaEl.appendChild(parchment);
             
-            // Animación
             setTimeout(() => parchment.classList.add('visible'), 50);
             
-            // Scroll arriba en móvil al abrir nueva carta
             parchment.scrollTop = 0;
         }
 
         function cerrarCarta() {
-            // Quitar clase para volver a mostrar la lista (animación CSS se encarga del resto)
             appContainer.classList.remove('reading-mode');
             
-            // Opcional: quitar selección visual de la lista
             setTimeout(() => {
                  document.querySelectorAll('.message-card').forEach(c => c.classList.remove('active'));
             }, 300);
         }
 
-        // Buscador
         buscadorInput.addEventListener('input', (e) => {
             const texto = e.target.value.toLowerCase();
             const filtradas = CARTAS_ENCANTADAS.filter(c => 
@@ -475,7 +442,6 @@ que solo responden a ti.`
             renderizarLista(filtradas);
         });
 
-        // --- SISTEMA DE PARTÍCULAS (Sin cambios mayores, optimizado) ---
         const canvas = document.getElementById('magic-dust');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -530,7 +496,6 @@ que solo responden a ti.`
         initParticles();
         animateParticles();
         
-        // Inicializar
         renderizarLista(CARTAS_ENCANTADAS);
     </script>
 </body>
