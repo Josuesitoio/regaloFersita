@@ -20,7 +20,7 @@
             --card-bg: #ffffff;         /* Blanco puro para contraste */
             --text-main: #1a1a1a;       /* Negro suave */
             --text-muted: #666666;
-            --glass: rgba(255, 255, 255, 0.05);
+            --glass: rgba(15, 31, 56, 0.95); /* Color base del nav */
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -33,20 +33,22 @@
             overflow-x: hidden;
         }
 
-        /* Scrollbar Invisible (Estética móvil) */
+        /* Scrollbar Invisible General */
         ::-webkit-scrollbar { width: 0px; background: transparent; }
 
-       /* --- MENÚ DE NAVEGACIÓN --- */
+        /* =========================================
+           2. NAV MEJORADO (COMPATIBLE SIN HAMBURGUESA)
+           ========================================= */
         .main-nav {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background-color: rgba(15, 31, 56, 0.95);
-            border-bottom: 2px solid var(--belle-gold);
+            background-color: var(--glass);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); /* Borde dorado sutil */
             z-index: 1000;
-            display: flex;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px); /* Efecto vidrio real */
         }
 
         .nav-list {
@@ -54,48 +56,87 @@
             padding: 0;
             margin: 0;
             display: flex;
-            gap: 30px;
+            justify-content: center; /* Centrado en PC */
+            align-items: center;
+            height: 70px; /* Altura fija para estabilidad */
+            gap: 40px;
         }
 
         .nav-list li {
-            padding: 20px 0;
+            flex-shrink: 0; /* Evita que los textos se aplasten */
         }
 
         .nav-list a {
             text-decoration: none;
-            color: var(--belle-gold);
-            font-size: 1.1rem;
+            color: var(--gold-main);
+            font-family: 'Cinzel', serif; /* Fuente más elegante para menú */
+            font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
             position: relative;
+            padding: 10px 5px;
+            display: block;
         }
 
         .nav-list a:hover, .nav-list a.active {
             color: #fff;
-            text-shadow: 0 0 10px var(--belle-gold);
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
         }
 
-        /* Indicador de página activa */
+        /* Indicador floral */
         .nav-list a.active::after {
-            content: '❧'; /* Un adorno floral pequeño */
+            content: '✦'; 
             display: block;
             position: absolute;
-            bottom: -15px;
-            left: 0;
-            right: 0;
+            bottom: 2px;
+            left: 0; right: 0;
             text-align: center;
-            font-size: 1.5rem;
-            color: var(--rose-red);
+            font-size: 0.8rem;
+            color: var(--gold-light);
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* --- RESPONSIVE SIN HAMBURGUESA (SWIPEABLE) --- */
+        @media (max-width: 768px) {
+            .nav-list {
+                justify-content: flex-start; /* Alinea al inicio para permitir scroll */
+                overflow-x: auto; /* Permite deslizar si no cabe */
+                padding: 0 20px;
+                gap: 25px; /* Menos espacio entre items */
+                width: 100%;
+                /* Scroll suave en iOS */
+                -webkit-overflow-scrolling: touch; 
+                /* Ocultar barra de scroll en el menú */
+                scrollbar-width: none; 
+            }
+            .nav-list::-webkit-scrollbar { display: none; }
+
+            .nav-list a {
+                font-size: 0.8rem; /* Texto un poco más pequeño */
+                letter-spacing: 1px;
+                white-space: nowrap; /* Asegura que el texto no salte de línea */
+            }
+            
+            /* Sombra lateral para indicar que hay más contenido */
+            .main-nav::after {
+                content: '';
+                position: absolute;
+                right: 0; top: 0; height: 100%;
+                width: 20px;
+                background: linear-gradient(to right, transparent, var(--glass));
+                pointer-events: none;
+            }
         }
 
         /* =========================================
-           3. HÉROE (LA GALAXIA QUE TE GUSTÓ)
+           3. HÉROE
            ========================================= */
         .hero-section {
             height: 100vh; width: 100%; position: relative;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: radial-gradient(circle at center, #1b2949 0%, #000000 100%);
+            padding-top: 60px; /* Compensar el Nav fijo */
         }
 
         #particles-js { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
@@ -103,142 +144,121 @@
         .hero-content { z-index: 10; text-align: center; width: 90%; max-width: 1000px; }
 
         .main-title {
-            font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 8vw, 6rem);
+            font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 10vw, 7rem);
             background: linear-gradient(to bottom, #fff, var(--gold-main));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 40px; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+            margin-bottom: 30px; filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
+            line-height: 1.2;
         }
 
-        /* Contadores Glassmorphism */
-        .timers-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        /* Contadores */
+        .timers-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
 
         .timer-card {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px 30px; border-radius: 12px;
-            min-width: 280px; text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 15px 25px; border-radius: 8px;
+            min-width: 140px; text-align: center;
         }
 
-        .timer-label { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: #aaa; display: block; margin-bottom: 5px; }
-        .timer-value { font-family: 'Cinzel', serif; font-size: 2rem; color: #fff; font-weight: 600; }
-        .timer-unit { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-main); }
+        .timer-label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #aaa; display: block; margin-bottom: 5px; }
+        .timer-value { font-family: 'Cinzel', serif; font-size: 1.5rem; color: #fff; font-weight: 600; display: block; }
+        .timer-unit { font-family: 'Playfair Display', serif; font-style: italic; color: var(--gold-main); font-size: 0.9rem; }
 
         .scroll-down {
-            margin-top: 50px; font-size: 2rem; color: var(--gold-main); 
+            font-size: 2rem; color: var(--gold-main); 
             animation: bounce 2s infinite; cursor: pointer; opacity: 0.8;
+            margin-top: 20px;
         }
 
         /* =========================================
-           4. SECCIÓN 200 RAZONES (LIMPIEZA TOTAL)
+           4. SECCIÓN 200 RAZONES
            ========================================= */
         .reasons-section {
             position: relative;
-            background-color: #f9f9f9; /* Blanco grisáceo muy elegante */
+            background-color: #f9f9f9; 
             padding: 80px 20px;
             min-height: 100vh;
             color: var(--text-main);
             z-index: 20;
-            /* Sombra superior para separar del espacio */
             box-shadow: 0 -30px 60px rgba(0,0,0,0.8); 
         }
 
         .reasons-container { max-width: 1000px; margin: 0 auto; }
 
-        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-header { text-align: center; margin-bottom: 60px; }
 
         .section-header h2 {
-            font-family: 'Cinzel', serif; font-size: 2.5rem; color: #000;
+            font-family: 'Cinzel', serif; font-size: clamp(1.8rem, 5vw, 2.5rem); color: #000;
             margin: 0; letter-spacing: 5px; text-transform: uppercase;
         }
 
         .section-header span {
-            font-family: 'Great Vibes', cursive; font-size: 4rem; color: var(--gold-main);
+            font-family: 'Great Vibes', cursive; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--gold-main);
             display: block; margin-top: 5px;
         }
 
-        /* EL MENSAJE NUEVO QUE PEDISTE */
         .intro-message {
-            margin-top: 20px;
+            margin-top: 25px;
             font-family: 'Playfair Display', serif;
             font-size: 1.1rem;
             color: var(--text-muted);
             font-style: italic;
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: auto; margin-right: auto;
             line-height: 1.6;
             border-top: 1px solid #ddd;
-            padding-top: 20px;
+            padding-top: 25px;
         }
 
-        /* GRID */
         .reasons-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 20px;
         }
 
-        /* --- DISEÑO DE TARJETA MEJORADO (MINIMALISTA) --- */
         .reason-card {
             background: white;
-            padding: 30px 25px;
-            border-radius: 2px; /* Esquinas casi rectas, muy sofisticado */
+            padding: 25px 20px;
+            border-radius: 4px;
             position: relative;
-            /* Sombra ultra suave */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); 
-            border: 1px solid rgba(0,0,0,0.02); /* Borde casi invisible */
-            border-left: 3px solid var(--gold-main); /* El único acento de color */
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03); 
+            border: 1px solid rgba(0,0,0,0.02);
+            border-left: 3px solid var(--gold-main);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; flex-direction: column; justify-content: center;
         }
 
         .reason-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15); /* Sombra dorada muy sutil */
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.15);
         }
 
-        /* Número elegante y discreto */
         .card-number {
             font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            color: #ddd; /* Gris muy claro */
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-weight: bold;
+            font-size: 0.7rem; color: #e0e0e0;
+            position: absolute; top: 10px; right: 15px; font-weight: bold;
         }
         
-        /* Efecto hover en el número */
         .reason-card:hover .card-number { color: var(--gold-main); }
 
         .reason-text {
             font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
-            color: #333;
-            line-height: 1.5;
-            font-style: italic;
-            margin-top: 5px;
+            font-size: 1.1rem; color: #333;
+            line-height: 1.4; font-style: italic; margin-top: 5px;
         }
         
-        /* Primera letra elegante */
-        .reason-text::first-letter {
-            font-size: 1.3rem;
-            color: var(--gold-main);
-        }
+        .reason-text::first-letter { font-size: 1.3rem; color: var(--gold-main); }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .timers-container { flex-direction: column; width: 100%; }
-            .timer-card { width: 100%; margin-bottom: 10px; }
-            .reasons-grid { grid-template-columns: 1fr; } /* 1 Columna en móvil */
-            .main-title { font-size: 3rem; }
+            .timers-container { flex-direction: row; gap: 10px; }
+            .timer-card { min-width: 45%; flex: 1; } /* Dos columnas en móvil */
+            .reasons-grid { grid-template-columns: 1fr; }
         }
 
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(5px);} to {opacity: 1; transform: translateY(0);} }
     </style>
 </head>
 <body>
@@ -248,7 +268,7 @@
             <li><a href="index.html">Inicio</a></li>
             <li><a href="cartas.html">Cartas</a></li>
             <li><a href="poemas.html">Poemas</a></li>
-            <li><a href="DeAmor.html">Nuestra Galaxia</a></li>
+            <li><a href="DeAmor.html" class="active">Nuestra Galaxia</a></li>
         </ul>
     </nav>
 
@@ -262,13 +282,13 @@
                 <div class="timer-card">
                     <span class="timer-label">Desde que te vi</span>
                     <span id="timer-known" class="timer-value">...</span>
-                    <span class="timer-unit">Segundos de destino</span>
+                    <span class="timer-unit">Segundos</span>
                 </div>
 
                 <div class="timer-card">
-                    <span class="timer-label">Nuestra historia</span>
+                    <span class="timer-label">Siendo novios</span>
                     <span id="timer-together" class="timer-value">...</span>
-                    <span class="timer-unit">Segundos de amor</span>
+                    <span class="timer-unit">Segundos</span>
                 </div>
             </div>
 
@@ -296,8 +316,8 @@
 
     <script>
         /* --- CONFIGURACIÓN DE FECHAS --- */
-        const FECHA_CONOCER = new Date(2024, 1, 20);
-        const FECHA_NOVIOS = new Date(2025, 10, 17);
+        const FECHA_CONOCER = new Date(2024, 1, 20); // Recuerda: Enero es 0, Febrero es 1
+        const FECHA_NOVIOS = new Date(2025, 10, 17); // Noviembre es 10
 
         /* --- RELOJES --- */
         function updateTimers() {
@@ -305,215 +325,218 @@
             const diff1 = Math.floor((now - FECHA_CONOCER) / 1000);
             const diff2 = Math.floor((now - FECHA_NOVIOS) / 1000);
             document.getElementById('timer-known').innerText = diff1.toLocaleString();
-            document.getElementById('timer-together').innerText = diff2.toLocaleString();
+            
+            // Si la fecha de novios es futura, poner 0 o contador negativo
+            document.getElementById('timer-together').innerText = diff2 > 0 ? diff2.toLocaleString() : "Pronto..."; 
         }
         setInterval(updateTimers, 1000);
         updateTimers();
 
-        /* --- GENERADOR DE TARJETAS (LIMPIO) --- */
+        /* --- GENERADOR DE TARJETAS (DATA COMPLETA) --- */
         const reasons = [
-    "Quiero comenzar esta lista diciendo que mi principal razón de amarte es que ERES TÚ, eres el amor de mi vida 💕",
-    "El café de tus increíbles ojos",
-    "Tus hermosos cachetitos 🫰",
-    "El color de tu piel",
-    "El amor que emanas 💗",
-    "El brillo inusualmente hermoso que tienes",
-    "Tu olor a Fernanda",
-    "Tu amor por las fresas",
-    "Tu amor por la Bella y la Bestia 💛",
-    "Tu amor a la educación",
-    "Tu conciencia",
-    "Tu forma de pensar",
-    "El brinquito que das al verme 🫰",
-    "Cuando te sonrojas 💗",
-    "Cuando sonríes por lo tonto que digo",
-    "Nuestro futuro juntos 💙",
-    "Tu increíble corazón",
-    "El ímpetu que tienes",
-    "Eres mi escudo",
-    "Eres mi alegría 💛",
-    "Eres mi lugar seguro",
-    "Eres mi mejor amiga 💕",
-    "Me haces reír cuando lo necesito",
-    "Eres mi razón de ser",
-    "Eres mi todo 💙",
-    "Tu voz es música a mis oídos",
-    "Me haces sentir vivo",
-    "Me haces sentir feliz 💛",
-    "Me haces sentir...",
-    "Me haces amar la vida",
-    "Me haces sentir en casa 🫰",
-    "Me escuchas",
-    "Me soportas",
-    "Me amas 💕",
-    "Me miras con ojos de amor",
-    "Me besas suavemente",
-    "Me besas fuertemente",
-    "Tus anhelos son mis anhelos 💙",
-    "Tus metas son mis metas",
-    "Me inspiras",
-    "Eres una persona increíble 💗",
-    "Tus sueños son mis sueños",
-    "Tu corazón es conforme a mi corazón",
-    "Eres la niña de mis ojos",
-    "Eres calor cuando tengo frío 💛",
-    "Eres frescura cuando tengo calor 💙",
-    "Eres mi musa",
-    "Eres arte puro",
-    "Eres tú, y con eso me basta 💕",
-    "Tu cara de emoción",
-    "Tu cara de amor",
-    "Tu cara risueña",
-    "Mi tiempo pasa lento y rápido contigo 🫰",
-    "Eres un tesoro (Mi tesoro) 💛",
-    "Eres lo que siempre soñé",
-    "Tus pasiones me enamoran",
-    "Eres lectora",
-    "Eres creativa 💗",
-    "Tienes una gran imaginación",
-    "Amas con todo tu corazón",
-    "Contigo soy el hombre más feliz 💙",
-    "Eres mi primer amor",
-    "Me enseñaste a amar 💕",
-    "Me enseñaste a imaginar",
-    "Me enseñaste a amar incluso en lo malo",
-    "Tenemos un futuro juntos",
-    "Amo lo que eres y lo que serás 💛",
-    "Me das paz",
-    "Me das calma",
-    "Tu nombre me calma 💗",
-    "Eres la persona más emocionante",
-    "Me sacaste de mi zona de confort",
-    "Me motivas a mejorar",
-    "¿Mencioné que soy el hombre más feliz contigo? 🫰",
-    "Tu estilo es hermoso",
-    "Eres mi concepto de belleza",
-    "Me haces sentir especial 💙",
-    "Eres como un hermoso recital de piano",
-    "Contigo las palabras me faltan",
-    "Me haces sentir que un 'te amo' no es suficiente para expresar lo que siento 💕",
-    "Amo tus tan suaves manos",
-    "Amo tus cálidos abrazos 💛",
-    "Amo tu increíble y hermoso cabello",
-    "Amo tus locuras",
-    "Amo que seas friki (Mi parte favorita) 🫰",
-    "Tu entusiasmo",
-    "Romance ahora me suena a Ti 💗",
-    "Te pienso en cada atardecer",
-    "Te pienso en cada anochecer 💙",
-    "Te pienso en cada hora, minuto y segundo",
-    "Jamás pude dejar de pensar en ti",
-    "El sabor de tus increíbles labios",
-    "El dolor se va al estar contigo 💕",
-    "Mis miedos se van con tu presencia",
-    "Amo tu respeto por mí",
-    "Amo el simple hecho de que seamos tú y yo 💛",
-    "Cuando estoy contigo el mundo desaparece",
-    "Cuando me miras y te miro nada más me importa",
-    "Estoy enamorado de cada cosa que haces 💗",
-    "Amo tus rarezas",
-    "Me enamora tu amor por la gente",
-    "Agregas color a mi vida 🌈",
-    "Contigo puedo ser yo 💙",
-    "Contigo dejo de ser lógico",
-    "La música de amor suena a Ti",
-    "Amo amarte 💕",
-    "Contigo crezco",
-    "La hermosa sensación indescriptible al estar contigo",
-    "Tu increíble ser 🫰",
-    "Tu color al sonrojarte me fascina",
-    "Amo tus silencios",
-    "Amo que te emociones 💛",
-    "Amo tu valentía (Aunque creas que no lo eres)",
-    "Estando contigo me siento lindo",
-    "Estando contigo me siento completo 💙",
-    "Me encanta tu pancita JSJSJSJS 🫰",
-    "Me fascina tu hermoso rostro",
-    "Tus imperfecciones me parecen perfectas",
-    "Me haces amar un futuro que aún no tenemos 💕",
-    "Me enseñaste la paciencia",
-    "Tenemos una conexión única",
-    "Me complementas de una manera hermosa 💗",
-    "Me fascina tu ideología",
-    "Me enamora tu esperanza",
-    "Me emociona nuestra boda 💍",
-    "A tu lado quiero caminar siempre 💙",
-    "Tú cuidas de mí",
-    "Yo cuido de ti",
-    "Me amaste cuando nadie me amó 💛",
-    "Tus ojos me cuentan historias sin palabras",
-    "Amo como amas el mundo",
-    "Miraste mi corazón 💕",
-    "Reímos mucho juntos (Hasta nos duelen las mejillas)",
-    "Me fascina tu manera de enojarte",
-    "Tu manera de consolar 💗",
-    "Tu manera de conquistarme",
-    "Amo cuando aprietas mi mano 🫰",
-    "Amo cuando inconscientemente sonrojada volteas en otra dirección",
-    "Amo como hablas de mí",
-    "Amo tus lunares 💛",
-    "Amo lo extrovertida que eres",
-    "Amo cuando besas toda mi cara",
-    "Amo tus besitos en el cachete 💕",
-    "La alegría que me das",
-    "Eres el cielo que tanto amo 💙",
-    "Eres el amanecer que tanto espero",
-    "Eres el atardecer que me pone lindo el rostro",
-    "Por tus fortalezas",
-    "Por tus debilidades 💗",
-    "Eres una persona muy tierna",
-    "Te preocupas por mí",
-    "Cada segundo te extraño mucho más 🫰",
-    "Amas lo que yo no amo de mí",
-    "El respeto que tienes hacia ti misma 💛",
-    "Por como te miras en fachas",
-    "Por como te miras arreglada",
-    "Por como te miras al estar feliz 💕",
-    "Por como te miras al estar triste",
-    "Por como te miras al estar en silencio",
-    "Por el simple hecho de estar 💙",
-    "Te interesa mi futuro",
-    "Apoyas mis decisiones",
-    "Porque me conquistaste 💗",
-    "Por Natalie Hesed Cruz Buelna",
-    "Por Andrés Cruz Buelna",
-    "Contigo me siento invencible 💪",
-    "Contigo me siento más fuerte",
-    "Contigo me siento en el cielo 💙",
-    "Por los cinco minutos antes de encontrarte son los mejores que vivo",
-    "Amo lo que nadie más ama de ti 🫰",
-    "Me enamoras más cada día",
-    "Te siento cerca incluso en la distancia 💕",
-    "No creo en las casualidades, y sé que esta no es una",
-    "Siempre estás para mí",
-    "Cada nota musical me recuerda a ti 💛",
-    "Cada cosa incluso la más pequeña te trae a mi mente",
-    "Eres la mujer de mis sueños",
-    "Eres mi confidente 💗",
-    "Eres la definición de asombrosa",
-    "Contigo puedo ser alguien débil",
-    "Contigo puedo reír hasta cansarme 💙",
-    "Contigo puedo estar en silencio",
-    "Contigo he aprendido muchas cosas",
-    "El dolor contigo desaparece 💕",
-    "Cuando escucho tu risa, juro que escucho a Dios…",
-    "Contigo puedo ser un niño 🫰",
-    "Contigo puedo amar libre",
-    "Amo ser tuyo",
-    "Tu sonrisa al verme llegar 💛",
-    "Cómo se te iluminan los ojos",
-    "Tus mensajes de buenos días",
-    "La calma que me das 💗",
-    "Tus abrazos que reinician mi vida",
-    "Tus besos que tanto amo",
-    "Amo ser tuyo (Lo repito porque es verdad) 💕",
-    "Por tu silueta",
-    "Por tu sensualidad",
-    "Por lo excitante que es estar contigo (de manera no solo sexual) 💙",
-    "Porque eres mi niña, eres la princesa de mi cuento, eres mi confidente amor",
-    "Porque no hay razón para no amarte, TE AMO 💕"
+            "Quiero comenzar esta lista diciendo que mi principal razón de amarte es que ERES TÚ, eres el amor de mi vida 💕",
+            "El café de tus increíbles ojos",
+            "Tus hermosos cachetitos 🫰",
+            "El color de tu piel",
+            "El amor que emanas 💗",
+            "El brillo inusualmente hermoso que tienes",
+            "Tu olor a Fernanda",
+            "Tu amor por las fresas",
+            "Tu amor por la Bella y la Bestia 💛",
+            "Tu amor a la educación",
+            "Tu conciencia",
+            "Tu forma de pensar",
+            "El brinquito que das al verme 🫰",
+            "Cuando te sonrojas 💗",
+            "Cuando sonríes por lo tonto que digo",
+            "Nuestro futuro juntos 💙",
+            "Tu increíble corazón",
+            "El ímpetu que tienes",
+            "Eres mi escudo",
+            "Eres mi alegría 💛",
+            "Eres mi lugar seguro",
+            "Eres mi mejor amiga 💕",
+            "Me haces reír cuando lo necesito",
+            "Eres mi razón de ser",
+            "Eres mi todo 💙",
+            "Tu voz es música a mis oídos",
+            "Me haces sentir vivo",
+            "Me haces sentir feliz 💛",
+            "Me haces sentir...",
+            "Me haces amar la vida",
+            "Me haces sentir en casa 🫰",
+            "Me escuchas",
+            "Me soportas",
+            "Me amas 💕",
+            "Me miras con ojos de amor",
+            "Me besas suavemente",
+            "Me besas fuertemente",
+            "Tus anhelos son mis anhelos 💙",
+            "Tus metas son mis metas",
+            "Me inspiras",
+            "Eres una persona increíble 💗",
+            "Tus sueños son mis sueños",
+            "Tu corazón es conforme a mi corazón",
+            "Eres la niña de mis ojos",
+            "Eres calor cuando tengo frío 💛",
+            "Eres frescura cuando tengo calor 💙",
+            "Eres mi musa",
+            "Eres arte puro",
+            "Eres tú, y con eso me basta 💕",
+            "Tu cara de emoción",
+            "Tu cara de amor",
+            "Tu cara risueña",
+            "Mi tiempo pasa lento y rápido contigo 🫰",
+            "Eres un tesoro (Mi tesoro) 💛",
+            "Eres lo que siempre soñé",
+            "Tus pasiones me enamoran",
+            "Eres lectora",
+            "Eres creativa 💗",
+            "Tienes una gran imaginación",
+            "Amas con todo tu corazón",
+            "Contigo soy el hombre más feliz 💙",
+            "Eres mi primer amor",
+            "Me enseñaste a amar 💕",
+            "Me enseñaste a imaginar",
+            "Me enseñaste a amar incluso en lo malo",
+            "Tenemos un futuro juntos",
+            "Amo lo que eres y lo que serás 💛",
+            "Me das paz",
+            "Me das calma",
+            "Tu nombre me calma 💗",
+            "Eres la persona más emocionante",
+            "Me sacaste de mi zona de confort",
+            "Me motivas a mejorar",
+            "¿Mencioné que soy el hombre más feliz contigo? 🫰",
+            "Tu estilo es hermoso",
+            "Eres mi concepto de belleza",
+            "Me haces sentir especial 💙",
+            "Eres como un hermoso recital de piano",
+            "Contigo las palabras me faltan",
+            "Me haces sentir que un 'te amo' no es suficiente para expresar lo que siento 💕",
+            "Amo tus tan suaves manos",
+            "Amo tus cálidos abrazos 💛",
+            "Amo tu increíble y hermoso cabello",
+            "Amo tus locuras",
+            "Amo que seas friki (Mi parte favorita) 🫰",
+            "Tu entusiasmo",
+            "Romance ahora me suena a Ti 💗",
+            "Te pienso en cada atardecer",
+            "Te pienso en cada anochecer 💙",
+            "Te pienso en cada hora, minuto y segundo",
+            "Jamás pude dejar de pensar en ti",
+            "El sabor de tus increíbles labios",
+            "El dolor se va al estar contigo 💕",
+            "Mis miedos se van con tu presencia",
+            "Amo tu respeto por mí",
+            "Amo el simple hecho de que seamos tú y yo 💛",
+            "Cuando estoy contigo el mundo desaparece",
+            "Cuando me miras y te miro nada más me importa",
+            "Estoy enamorado de cada cosa que haces 💗",
+            "Amo tus rarezas",
+            "Me enamora tu amor por la gente",
+            "Agregas color a mi vida 🌈",
+            "Contigo puedo ser yo 💙",
+            "Contigo dejo de ser lógico",
+            "La música de amor suena a Ti",
+            "Amo amarte 💕",
+            "Contigo crezco",
+            "La hermosa sensación indescriptible al estar contigo",
+            "Tu increíble ser 🫰",
+            "Tu color al sonrojarte me fascina",
+            "Amo tus silencios",
+            "Amo que te emociones 💛",
+            "Amo tu valentía (Aunque creas que no lo eres)",
+            "Estando contigo me siento lindo",
+            "Estando contigo me siento completo 💙",
+            "Me encanta tu pancita JSJSJSJS 🫰",
+            "Me fascina tu hermoso rostro",
+            "Tus imperfecciones me parecen perfectas",
+            "Me haces amar un futuro que aún no tenemos 💕",
+            "Me enseñaste la paciencia",
+            "Tenemos una conexión única",
+            "Me complementas de una manera hermosa 💗",
+            "Me fascina tu ideología",
+            "Me enamora tu esperanza",
+            "Me emociona nuestra boda 💍",
+            "A tu lado quiero caminar siempre 💙",
+            "Tú cuidas de mí",
+            "Yo cuido de ti",
+            "Me amaste cuando nadie me amó 💛",
+            "Tus ojos me cuentan historias sin palabras",
+            "Amo como amas el mundo",
+            "Miraste mi corazón 💕",
+            "Reímos mucho juntos (Hasta nos duelen las mejillas)",
+            "Me fascina tu manera de enojarte",
+            "Tu manera de consolar 💗",
+            "Tu manera de conquistarme",
+            "Amo cuando aprietas mi mano 🫰",
+            "Amo cuando inconscientemente sonrojada volteas en otra dirección",
+            "Amo como hablas de mí",
+            "Amo tus lunares 💛",
+            "Amo lo extrovertida que eres",
+            "Amo cuando besas toda mi cara",
+            "Amo tus besitos en el cachete 💕",
+            "La alegría que me das",
+            "Eres el cielo que tanto amo 💙",
+            "Eres el amanecer que tanto espero",
+            "Eres el atardecer que me pone lindo el rostro",
+            "Por tus fortalezas",
+            "Por tus debilidades 💗",
+            "Eres una persona muy tierna",
+            "Te preocupas por mí",
+            "Cada segundo te extraño mucho más 🫰",
+            "Amas lo que yo no amo de mí",
+            "El respeto que tienes hacia ti misma 💛",
+            "Por como te miras en fachas",
+            "Por como te miras arreglada",
+            "Por como te miras al estar feliz 💕",
+            "Por como te miras al estar triste",
+            "Por como te miras al estar en silencio",
+            "Por el simple hecho de estar 💙",
+            "Te interesa mi futuro",
+            "Apoyas mis decisiones",
+            "Porque me conquistaste 💗",
+            "Por Natalie Hesed Cruz Buelna",
+            "Por Andrés Cruz Buelna",
+            "Contigo me siento invencible 💪",
+            "Contigo me siento más fuerte",
+            "Contigo me siento en el cielo 💙",
+            "Por los cinco minutos antes de encontrarte son los mejores que vivo",
+            "Amo lo que nadie más ama de ti 🫰",
+            "Me enamoras más cada día",
+            "Te siento cerca incluso en la distancia 💕",
+            "No creo en las casualidades, y sé que esta no es una",
+            "Siempre estás para mí",
+            "Cada nota musical me recuerda a ti 💛",
+            "Cada cosa incluso la más pequeña te trae a mi mente",
+            "Eres la mujer de mis sueños",
+            "Eres mi confidente 💗",
+            "Eres la definición de asombrosa",
+            "Contigo puedo ser alguien débil",
+            "Contigo puedo reír hasta cansarme 💙",
+            "Contigo puedo estar en silencio",
+            "Contigo he aprendido muchas cosas",
+            "El dolor contigo desaparece 💕",
+            "Cuando escucho tu risa, juro que escucho a Dios…",
+            "Contigo puedo ser un niño 🫰",
+            "Contigo puedo amar libre",
+            "Amo ser tuyo",
+            "Tu sonrisa al verme llegar 💛",
+            "Cómo se te iluminan los ojos",
+            "Tus mensajes de buenos días",
+            "La calma que me das 💗",
+            "Tus abrazos que reinician mi vida",
+            "Tus besos que tanto amo",
+            "Amo ser tuyo (Lo repito porque es verdad) 💕",
+            "Por tu silueta",
+            "Por tu sensualidad",
+            "Por lo excitante que es estar contigo (de manera no solo sexual) 💙",
+            "Porque eres mi niña, eres la princesa de mi cuento, eres mi confidente amor",
+            "Porque no hay razón para no amarte, TE AMO 💕"
         ];
 
+        /* Rellenar si faltan para llegar a 200 */
         const fillersA = ["Amo", "Adoro", "Me fascina", "Valoro"];
         const fillersB = ["tu esencia", "tu alma", "tu voz", "tu risa", "tu bondad", "tu valentía"];
         const fillersC = ["infinita", "única", "radiante", "que me da paz"];
@@ -542,15 +565,15 @@
         }
         grid.appendChild(fragment);
 
-        /* --- PARTICLES.JS (TEMA ESPACIAL) --- */
+        /* --- PARTICLES.JS --- */
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
                 "color": { "value": "#ffffff" },
                 "shape": { "type": "circle" },
                 "opacity": { "value": 0.5, "random": true },
                 "size": { "value": 3, "random": true },
-                "move": { "enable": true, "speed": 0.2, "direction": "none", "random": true, "out_mode": "out" }
+                "move": { "enable": true, "speed": 0.4, "direction": "none", "random": true, "out_mode": "out" }
             },
             "interactivity": {
                 "detect_on": "canvas",
@@ -560,5 +583,4 @@
         });
     </script>
 </body>
-
 </html>
